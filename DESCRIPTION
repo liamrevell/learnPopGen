@@ -10,7 +10,7 @@ Suggests:
 ZipData: no
 Description: conducts various numerical analyses and simulations in population genetics and evolutionary theory.
 License: GPL (>= 2)
-URL: http://faculty.umb.edu/liam.revell/
+URL: http://github.com/liamrevell/PopGen
 Packaged: 2017-10-05 21:00:00 EST
 Repository: 
 Date/Publication: 2017-10-05 21:00:00 EST
