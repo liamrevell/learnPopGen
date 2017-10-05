@@ -1,0 +1,1 @@
+export(founder.event, freqdep, genetic.drift, hawk.dove, mutation.selection, selection, sexratio,rcd)
