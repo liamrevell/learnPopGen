@@ -1,5 +1,5 @@
 export(founder.event, freqdep, genetic.drift, hawk.dove, mutation.selection, selection, sexratio,rcd)
 
-importFrom(grDevices, x11)
+importFrom(grDevices, x11, dev.flush)
 importFrom(graphics, barplot, hist, layout, legend, lines, par, plot)
 importFrom(stats, rbinom, rnorm, runif)
