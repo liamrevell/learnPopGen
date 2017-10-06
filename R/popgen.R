@@ -27,13 +27,20 @@ selection<-function(p0=0.01,w=c(1.0,0.9,0.8),time=100,show="p",pause=0){
 			p[i]<-p[i-1]
 			p[i]<-(p[i]^2*w[1]+p[i]*(1-p[i])*w[2])/wbar[i-1]
 			wbar[i]<-p[i]^2*w[1]+2*p[i]*(1-p[i])*w[2]+(1-p[i])^2*w[3]
-			if(show=="p")
-				plot(1:i,p,type="l",xlim=c(0,time),ylim=c(0,1),xlab="time",main="frequency of A")
-			else if(show=="q")
-				plot(1:i,1-p,type="l",xlim=c(0,time),ylim=c(0,1),xlab="time",ylab="q",main="frequency of a")
-			else if(show=="fitness")
-				plot(1:i,wbar/max(w),type="l",xlim=c(0,time),ylim=c(0,1),xlab="time",main="mean fitness")
-			else if(show=="cobweb"){
+			ii<-(i-1):i
+			if(show=="p"){
+				if(i==2) plot(1:i,p,type="l",xlim=c(0,time),ylim=c(0,1),xlab="time",
+					main="frequency of A")
+				else lines(ii,p[ii],type="l")
+			} else if(show=="q"){
+				if(i==2) plot(1:i,1-p,type="l",xlim=c(0,time),ylim=c(0,1),xlab="time",
+					ylab="q",main="frequency of a")
+				else lines(ii,1-p[ii],type="l")
+			} else if(show=="fitness"){
+				if(i==2) plot(1:i,wbar/max(w),type="l",xlim=c(0,time),ylim=c(0,1),
+					xlab="time",main="mean fitness")
+				else lines(ii,wbar[ii]/max(w),type="l")
+			} else if(show=="cobweb"){
 				lines(c(p[i-1],p[i-1]),c(p[i-1],p[i]))
 				lines(c(p[i-1],p[i]),c(p[i],p[i]))
 			} else {
@@ -87,13 +94,20 @@ freqdep<-function(p0=0.01,s=0,time=100,show="p",pause=0){
 			p[i]<-(p[i]^2*w11+p[i]*(1-p[i])*w12)/wbar[i-1]
 			f11<-p[i]^2; f12<-2*p[i]*(1-p[i]); f22<-(1-p[i])^2
 			wbar[i]<-f11*(1-3*f12+3*f22)+f12*(1-s*f12)+f22*(1-3*f12+3*f11)
-			if(show=="p")
-				plot(1:i,p,type="l",xlim=c(0,time),ylim=c(0,1),xlab="time",main="frequency of A")
-			else if(show=="q")
-				plot(1:i,1-p,type="l",xlim=c(0,time),ylim=c(0,1),xlab="time",ylab="q",main="frequency of a")
-			else if(show=="fitness")
-				plot(1:i,wbar,type="l",xlim=c(0,time),ylim=c(0,1),xlab="time",main="mean fitness")
-			else if(show=="cobweb"){
+			ii<-(i-1):i
+			if(show=="p"){
+				if(i==2) plot(1:i,p,type="l",xlim=c(0,time),ylim=c(0,1),xlab="time",
+					main="frequency of A")
+				else lines(ii,p[ii],type="l")
+			} else if(show=="q"){
+				if(i==2) plot(1:i,1-p,type="l",xlim=c(0,time),ylim=c(0,1),xlab="time",
+					ylab="q",main="frequency of a")
+				else lines(ii,p[ii],type="l")
+			} else if(show=="fitness"){
+				if(i==2) plot(1:i,wbar,type="l",xlim=c(0,time),ylim=c(0,1),xlab="time",
+					main="mean fitness")
+				else lines(ii,wbar[ii],type="l")
+			} else if(show=="cobweb"){
 				lines(c(p[i-1],p[i-1]),c(p[i-1],p[i]))
 				lines(c(p[i-1],p[i]),c(p[i],p[i]))
 			} else {
@@ -118,10 +132,16 @@ sexratio<-function(p0=0.01,time=100,show="p",pause=0){
 		fm<-p[i]^2+p[i]*(1-p[i]); ff<-(1-p[i])^2+p[i]*(1-p[i])
 		wm<-0.5/fm; wf<-0.5/ff
 		wbar[i]<-fm*wm+wf*ff
-		if(show=="p")
-			plot(1:i,p,type="l",xlim=c(0,time),ylim=c(0,1),xlab="time",main="frequency of A")
-		else if(show=="fitness")
-			plot(1:i,wbar,type="l",xlim=c(0,time),ylim=c(0,1),xlab="time",main="mean fitness")
+		ii<-(i-1):i
+		if(show=="p"){
+			if(i==2) plot(1:i,p,type="l",xlim=c(0,time),ylim=c(0,1),xlab="time",
+				main="frequency of A")
+			else lines(ii,p[ii],type="l")
+		} else if(show=="fitness"){
+			if(i==2) plot(1:i,wbar,type="l",xlim=c(0,time),ylim=c(0,1),xlab="time",
+				main="mean fitness")
+			else lines(ii,wbar[ii],type="l")
+		}
 		dev.flush()
 	}
 }
@@ -133,14 +153,20 @@ mutation.selection<-function(p0=1.0,w=c(1,1),u=0.001,time=100,show="q",pause=0,y
 		p[i]<-p[i-1]
 		p[i]<-(1-u)*(p[i]^2*1.0+p[i]*(1-p[i])*w[1])/wbar[i-1]
 		wbar[i]<-p[i]^2*1.0+2*p[i]*(1-p[i])*w[1]+(1-p[i])^2*w[2]
-		if(show=="p")
-			plot(1:i,p,type="l",xlim=c(0,time),ylim=c(0,1),xlab="time",main="frequency of A")
-		else if(show=="q"){
-			plot(1:i,1-p,type="l",xlim=c(0,time),ylim=ylim,xlab="time",ylab="q",main="frequency of a")
-		} else if(show=="fitness")
-			plot(1:i,wbar/max(w),type="l",xlim=c(0,time),ylim=c(0,1),xlab="time",main="mean fitness")
-
-		else {
+		ii<-(i-1):i
+		if(show=="p"){
+			if(i==2) plot(1:i,p,type="l",xlim=c(0,time),ylim=c(0,1),xlab="time",
+				main="frequency of A")
+			else lines(ii,p[ii],type="l")
+		} else if(show=="q"){
+			if(i==2) plot(1:i,1-p,type="l",xlim=c(0,time),ylim=ylim,xlab="time",
+				ylab="q",main="frequency of a")
+			else lines(ii,1-p[ii],type="l")
+		} else if(show=="fitness"){
+			if(i==2) plot(1:i,wbar/max(w),type="l",xlim=c(0,time),ylim=c(0,1),
+				xlab="time",main="mean fitness")
+			else lines(ii,wbar[ii]/max(w),type="l")
+		} else {
 			message("not a recognized option")
 			break
 		}
@@ -154,8 +180,10 @@ genetic.drift<-function(p0=0.5,Ne=20,nrep=10,time=100,show="p",pause=0.1){
 	p<-matrix(0,time,nrep)
 	hbar<-vector()
 	genotypes<-list()
-	for(i in 1:nrep) genotypes[[i]]<-matrix(sample(c(rep(1,round(2*p0*Ne)),rep(0,2*Ne-round(2*p0*Ne)))),Ne,2)
-	for(i in 1:nrep) freq[[i]][1,]<-hist(rowSums(genotypes[[i]]),c(-0.5,0.5,1.5,2.5),plot=FALSE)$density
+	for(i in 1:nrep) genotypes[[i]]<-matrix(sample(c(rep(1,round(2*p0*Ne)),
+		rep(0,2*Ne-round(2*p0*Ne)))),Ne,2)
+	for(i in 1:nrep) freq[[i]][1,]<-hist(rowSums(genotypes[[i]]),c(-0.5,0.5,1.5,2.5),
+		plot=FALSE)$density
 	for(i in 1:nrep) p[1,i]<-mean(genotypes[[i]])
 	X<-matrix(NA,nrep,3,dimnames=list(NULL,c("aa","Aa","AA")))
 	for(i in 1:nrep) X[i,]<-freq[[i]][1,]
@@ -164,33 +192,38 @@ genetic.drift<-function(p0=0.5,Ne=20,nrep=10,time=100,show="p",pause=0.1){
 	if(show=="fixed"){
 		fixedA<-sum(sapply(genotypes,sum)==(2*Ne))
 		fixeda<-sum(sapply(genotypes,sum)==0)
-		barplot(c(fixeda,fixedA)/nrep,ylim=c(0,1),names.arg=c("a","A"),main="populations fixed",ylab="frequency")
+		barplot(c(fixeda,fixedA)/nrep,ylim=c(0,1),names.arg=c("a","A"),
+			main="populations fixed",ylab="frequency")
 	}	
 	for(i in 2:time){
 		new.gen<-repMatrix(matrix(NA,Ne,2),nrep)
 		for(j in 1:nrep) for(k in 1:Ne) new.gen[[j]][k,]<-sample(genotypes[[j]],size=2)
 		genotypes<-new.gen
 		for(j in 1:nrep){ 
-			freq[[j]][i,]<-hist(rowSums(genotypes[[j]]),c(-0.5,0.5,1.5,2.5),plot=FALSE)$density
+			freq[[j]][i,]<-hist(rowSums(genotypes[[j]]),c(-0.5,0.5,1.5,2.5),
+				plot=FALSE)$density
 			p[i,j]<-mean(genotypes[[j]])
 		}
 		for(j in 1:nrep) X[j,]<-freq[[j]][i,]
 		if(show=="genotypes") barplot(X,ylim=c(0,1),main="genotype frequencies",beside=TRUE)
 		else if(show=="p"){ 
 			if(i==2){ 
-				plot(1:i,p[1:i,1],type="l",ylim=c(0,1),xlim=c(1,time),main="frequency of A",xlab="time",ylab="p")
+				plot(1:i,p[1:i,1],type="l",ylim=c(0,1),xlim=c(1,time),
+					main="frequency of A",xlab="time",ylab="p")
 				if(nrep>1) for(j in 2:nrep) lines(1:i,p[1:i,j])
 			} else for(j in 1:nrep) lines((i-1):i,p[(i-1):i,j])
 		}
 		else if(show=="heterozygosity"){
 			hbar[i]<-mean(X[,2])
-			if(i==2) plot(1:time,2*p0*(1-p0)*(1-1/(2*Ne))^(0:(time-1)),type="l",lwd=2,col="red",main="heterozygosity",xlab="time",ylab="f(Aa)",ylim=c(0,0.6))
+			if(i==2) plot(1:time,2*p0*(1-p0)*(1-1/(2*Ne))^(0:(time-1)),type="l",
+				lwd=2,col="red",main="heterozygosity",xlab="time",ylab="f(Aa)",ylim=c(0,0.6))
 			lines((i-1):i,hbar[(i-1):i])
 		}
 		else if(show=="fixed"){
 			fixedA<-sum(sapply(genotypes,sum)==(2*Ne))
 			fixeda<-sum(sapply(genotypes,sum)==0)
-			barplot(c(fixeda,fixedA)/nrep,ylim=c(0,1),names.arg=c("a","A"),main="populations fixed",ylab="frequency")
+			barplot(c(fixeda,fixedA)/nrep,ylim=c(0,1),names.arg=c("a","A"),
+				main="populations fixed",ylab="frequency")
 		}
 		dev.flush()
 		Sys.sleep(pause)
