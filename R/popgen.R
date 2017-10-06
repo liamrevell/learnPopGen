@@ -1,4 +1,4 @@
-# functions by Liam Revell 2012
+# functions by Liam Revell 2012 (some small updates 2017)
 
 selection<-function(p0=0.01,w=c(1.0,0.9,0.8),time=100,show="p",pause=0){
 	if(show=="surface"){
@@ -19,6 +19,7 @@ selection<-function(p0=0.01,w=c(1.0,0.9,0.8),time=100,show="p",pause=0){
 			p2<-(p/wbar)*(p*w[1]+(1-p)*w[2]-wbar)+p
 			plot(p,p2,type="l",xlab="p(t)",ylab="p(t+1)")
 			lines(c(0,1),c(0,1),lty=2)
+			dev.flush()
 		}
 		p<-wbar<-vector(); p[1]<-p0
 		wbar[1]<-p[1]^2*w[1]+2*p[1]*(1-p[1])*w[2]+(1-p[1])^2*w[3]
@@ -39,6 +40,7 @@ selection<-function(p0=0.01,w=c(1.0,0.9,0.8),time=100,show="p",pause=0){
 				message("not a recognized option")
 				break
 			}
+			dev.flush()
 			Sys.sleep(pause)
 		}
 	}
@@ -72,6 +74,7 @@ freqdep<-function(p0=0.01,s=0,time=100,show="p",pause=0){
 			p2<-(p/wbar)*(p*w11+(1-p)*w12-wbar)+p
 			plot(p,p2,type="l",xlab="p(t)",ylab="p(t+1)")
 			lines(c(0,1),c(0,1),lty=2)
+			dev.flush()
 		}
 		p<-wbar<-vector(); p[1]<-p0
 		f11<-p[1]^2; f12<-2*p[1]*(1-p[1]); f22<-(1-p[1])^2
@@ -97,6 +100,7 @@ freqdep<-function(p0=0.01,s=0,time=100,show="p",pause=0){
 				message("not a recognized option")
 				break
 			}
+			dev.flush()
 			Sys.sleep(pause)
 		}
 	}
@@ -118,6 +122,7 @@ sexratio<-function(p0=0.01,time=100,show="p",pause=0){
 			plot(1:i,p,type="l",xlim=c(0,time),ylim=c(0,1),xlab="time",main="frequency of A")
 		else if(show=="fitness")
 			plot(1:i,wbar,type="l",xlim=c(0,time),ylim=c(0,1),xlab="time",main="mean fitness")
+		dev.flush()
 	}
 }
 
@@ -139,6 +144,7 @@ mutation.selection<-function(p0=1.0,w=c(1,1),u=0.001,time=100,show="q",pause=0,y
 			message("not a recognized option")
 			break
 		}
+		dev.flush()
 		Sys.sleep(pause)
 	}
 }
@@ -186,6 +192,7 @@ genetic.drift<-function(p0=0.5,Ne=20,nrep=10,time=100,show="p",pause=0.1){
 			fixeda<-sum(sapply(genotypes,sum)==0)
 			barplot(c(fixeda,fixedA)/nrep,ylim=c(0,1),names.arg=c("a","A"),main="populations fixed",ylab="frequency")
 		}
+		dev.flush()
 		Sys.sleep(pause)
 	}
 }
