@@ -1,27 +1,32 @@
-# functions by Liam Revell 2012 (some small updates 2017)
+# functions by Liam Revell 2012 (some small updates 2017, 2018)
 
-selection<-function(p0=0.01,w=c(1.0,0.9,0.8),time=100,show="p",pause=0){
+selection<-function(p0=0.01,w=c(1.0,0.9,0.8),time=100,show="p",pause=0,...){
+	if(hasArg(add)) add<-list(...)$add
+	else add<-FALSE
+	if(hasArg(color)) color<-list(...)$color
+	else color<-"black"
 	if(show=="surface"){
 		p<-0:100/100
 		wbar<-p^2*w[1]+2*p*(1-p)*w[2]+(1-p)^2*w[3]
-		plot(p,wbar,type="l",ylim=c(0,1),main="mean fitness")
+		plot(p,wbar,type="l",ylim=c(0,1),main="mean fitness",col=color)
 	}
 	else if(show=="deltap"){
 		p<-0:100/100
 		wbar<-p^2*w[1]+2*p*(1-p)*w[2]+(1-p)^2*w[3]
 		deltap<-(p/wbar)*(p*w[1]+(1-p)*w[2]-wbar)
-		plot(p,deltap,type="l",main="delta p")
+		plot(p,deltap,type="l",main="delta p",col=color)
 		lines(c(0,1),c(0,0),lty=2)
 	} else {
 		if(show=="cobweb"){
 			p<-0:100/100
 			wbar<-p^2*w[1]+2*p*(1-p)*w[2]+(1-p)^2*w[3]
 			p2<-(p/wbar)*(p*w[1]+(1-p)*w[2]-wbar)+p
-			plot(p,p2,type="l",xlab="p(t)",ylab="p(t+1)")
+			plot(p,p2,type="l",xlab="p(t)",ylab="p(t+1)",col=color)
 			lines(c(0,1),c(0,1),lty=2)
 			dev.flush()
 		}
-		p<-wbar<-vector(); p[1]<-p0
+		p<-wbar<-vector()
+		p[1]<-p0
 		wbar[1]<-p[1]^2*w[1]+2*p[1]*(1-p[1])*w[2]+(1-p[1])^2*w[3]
 		for(i in 2:time){
 			p[i]<-p[i-1]
@@ -29,20 +34,20 @@ selection<-function(p0=0.01,w=c(1.0,0.9,0.8),time=100,show="p",pause=0){
 			wbar[i]<-p[i]^2*w[1]+2*p[i]*(1-p[i])*w[2]+(1-p[i])^2*w[3]
 			ii<-(i-1):i
 			if(show=="p"){
-				if(i==2) plot(1:i,p,type="l",xlim=c(0,time),ylim=c(0,1),xlab="time",
-					main="frequency of A")
-				else lines(ii,p[ii],type="l")
-			} else if(show=="q"){
+				if(i==2 && !add) plot(1:i,p,type="l",xlim=c(0,time),ylim=c(0,1),xlab="time",
+					main="frequency of A",col=color)
+				else lines(ii,p[ii],type="l",col=color)
+			} else if(show=="q" && !add){
 				if(i==2) plot(1:i,1-p,type="l",xlim=c(0,time),ylim=c(0,1),xlab="time",
-					ylab="q",main="frequency of a")
-				else lines(ii,1-p[ii],type="l")
-			} else if(show=="fitness"){
+					ylab="q",main="frequency of a",col=color)
+				else lines(ii,1-p[ii],type="l",col=color)
+			} else if(show=="fitness" && !add){
 				if(i==2) plot(1:i,wbar/max(w),type="l",xlim=c(0,time),ylim=c(0,1),
-					xlab="time",main="mean fitness")
-				else lines(ii,wbar[ii]/max(w),type="l")
+					xlab="time",main="mean fitness",col=color)
+				else lines(ii,wbar[ii]/max(w),type="l",col=color)
 			} else if(show=="cobweb"){
-				lines(c(p[i-1],p[i-1]),c(p[i-1],p[i]))
-				lines(c(p[i-1],p[i]),c(p[i],p[i]))
+				lines(c(p[i-1],p[i-1]),c(p[i-1],p[i]),col=color)
+				lines(c(p[i-1],p[i]),c(p[i],p[i]),col=color)
 			} else {
 				message("not a recognized option")
 				break
