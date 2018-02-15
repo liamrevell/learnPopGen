@@ -5,10 +5,24 @@ selection<-function(p0=0.01,w=c(1.0,0.9,0.8),time=100,show="p",pause=0,...){
 	else add<-FALSE
 	if(hasArg(color)) color<-list(...)$color
 	else color<-"black"
+	if(hasArg(equil)) equil<-list(...)$equil
+	else equil<-FALSE
+	if(equil){
+		if(w[2]>w[1]&&w[2]>w[3]){ ## overdominance
+			W<-w/w[2]
+			eq<-(1-W[3])/((1-W[1])+(1-W[3]))
+		} else if(w[2]<w[1]&&w[2]<w[3]){ ## underdominance
+			W<-w/w[2]
+			eq<-(1-W[3])/((1-W[1])+(1-W[3]))
+		} else if(1%in%which(w==max(w))){ 
+			eq<-1
+		} else eq<-0
+	}
 	if(show=="surface"){
 		p<-0:100/100
 		wbar<-p^2*w[1]+2*p*(1-p)*w[2]+(1-p)^2*w[3]
 		plot(p,wbar,type="l",ylim=c(0,1),main="mean fitness",col=color)
+		if(equil) abline(v=eq,lty="dotted")
 	}
 	else if(show=="deltap"){
 		p<-0:100/100
@@ -16,6 +30,7 @@ selection<-function(p0=0.01,w=c(1.0,0.9,0.8),time=100,show="p",pause=0,...){
 		deltap<-(p/wbar)*(p*w[1]+(1-p)*w[2]-wbar)
 		plot(p,deltap,type="l",main="delta p",col=color)
 		lines(c(0,1),c(0,0),lty=2)
+		if(equil) abline(v=eq,lty="dotted")
 	} else {
 		if(show=="cobweb"){
 			p<-0:100/100
@@ -23,6 +38,10 @@ selection<-function(p0=0.01,w=c(1.0,0.9,0.8),time=100,show="p",pause=0,...){
 			p2<-(p/wbar)*(p*w[1]+(1-p)*w[2]-wbar)+p
 			plot(p,p2,type="l",xlab="p(t)",ylab="p(t+1)",col=color)
 			lines(c(0,1),c(0,1),lty=2)
+			if(equil){ 
+				abline(v=eq,lty="dotted")
+				abline(h=eq,lty="dotted")
+			}
 			dev.flush()
 		}
 		p<-wbar<-vector()
@@ -52,6 +71,7 @@ selection<-function(p0=0.01,w=c(1.0,0.9,0.8),time=100,show="p",pause=0,...){
 				message("not a recognized option")
 				break
 			}
+			if(equil) abline(h=eq,lty="dotted")
 			dev.flush()
 			Sys.sleep(pause)
 		}
