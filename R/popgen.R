@@ -21,14 +21,16 @@ selection<-function(p0=0.01,w=c(1.0,0.9,0.8),time=100,show="p",pause=0,...){
 	if(show=="surface"){
 		p<-0:100/100
 		wbar<-p^2*w[1]+2*p*(1-p)*w[2]+(1-p)^2*w[3]
-		plot(p,wbar,type="l",ylim=c(0,1),main="mean fitness",col=color)
+		plot(p,wbar,type="l",ylim=c(0,1),main=expression(paste("mean fitness (",
+			bar(w),")",sep="")),ylab=expression(bar(w)),col=color)
 		if(equil) abline(v=eq,lty="dotted")
 	}
 	else if(show=="deltap"){
 		p<-0:100/100
 		wbar<-p^2*w[1]+2*p*(1-p)*w[2]+(1-p)^2*w[3]
 		deltap<-(p/wbar)*(p*w[1]+(1-p)*w[2]-wbar)
-		plot(p,deltap,type="l",main="delta p",col=color)
+		plot(p,deltap,type="l",main=expression(paste(Delta,"p as a function of p",
+			sep="")),ylab=expression(paste(Delta,"p",sep="")),col=color)
 		lines(c(0,1),c(0,0),lty=2)
 		if(equil) abline(v=eq,lty="dotted")
 	} else {
@@ -36,7 +38,9 @@ selection<-function(p0=0.01,w=c(1.0,0.9,0.8),time=100,show="p",pause=0,...){
 			p<-0:100/100
 			wbar<-p^2*w[1]+2*p*(1-p)*w[2]+(1-p)^2*w[3]
 			p2<-(p/wbar)*(p*w[1]+(1-p)*w[2]-wbar)+p
-			plot(p,p2,type="l",xlab="p(t)",ylab="p(t+1)",col=color)
+			plot(p,p2,type="l",xlab=expression(p[t]),ylab=expression(p[t+1]),
+				main=expression(paste(p[t+1]," as a function of ",p[t],sep="")),
+				col=color)
 			lines(c(0,1),c(0,1),lty=2)
 			if(equil){ 
 				abline(v=eq,lty="dotted")

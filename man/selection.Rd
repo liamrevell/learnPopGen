@@ -10,7 +10,7 @@
 	\item{time}{Number of generations to run the analysis.}
 	\item{show}{Various options for plotting. \code{"p"} shows the frequency of A through time; \code{"surface"} plots the mean fitness as a function of p; \code{"deltap"} shows the change in p as a function of p; \code{"cobweb"} creates a cobweb plot showing p(t) by p(t+1). The default is \code{show="p"}.}
 	\item{pause}{Pause between generations. \code{pause=0.01} (for instance) might smooth animation.}
-	\item{...}{optional arguments.}
+	\item{...}{Optional arguments, including: \code{add}, a logical value indicating whether or not to add to the current plot (applies only to \code{show="p"}); \code{color}, change the color of the plotted line (works nicely with \code{add}, for obvious reasons); and \code{equil}, a logical value indicating whether or not to show the equilibrium value of \emph{p} using vertical (or horizontal) lines on the graph (defaults to \code{FALSE}).}
 }
 \description{
 	This function performs numerical analysis of a simple biallelic selection model.

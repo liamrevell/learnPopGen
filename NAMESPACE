@@ -1,6 +1,6 @@
 export(founder.event, freqdep, genetic.drift, hawk.dove, mutation.selection, selection, sexratio,rcd)
 
 importFrom(grDevices, x11, dev.flush)
-importFrom(graphics, barplot, hist, layout, legend, lines, par, plot)
+importFrom(graphics, abline, barplot, hist, layout, legend, lines, par, plot)
 importFrom(methods, hasArg)
 importFrom(stats, rbinom, rnorm, runif)
