@@ -5,7 +5,7 @@ Title: Population genetic simulations & numerical analysis
 Author: Liam J. Revell
 Maintainer: Liam J. Revell <liam.revell@umb.edu>
 Depends: R (>= 2.6)
-Imports: 
+Imports: grDevices, graphics, methods, stats
 Suggests: 
 ZipData: no
 Description: conducts various numerical analyses and simulations in population genetics and evolutionary theory.
