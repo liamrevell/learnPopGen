@@ -1,8 +1,8 @@
 export(founder.event, freqdep, genetic.drift, hardy.weinberg, hawk.dove, mutation.selection, phenotype.freq, selection, sexratio,rcd)
 
-importFrom(graphics, abline, barplot, hist, layout, legend, lines, par, plot)
+importFrom(graphics, abline, barplot, hist, layout, legend, lines, par, plot, rect)
 importFrom(grDevices, x11, dev.flush)
 importFrom(gtools, permutations)
 importFrom(methods, hasArg)
 importFrom(phytools, make.transparent)
-importFrom(stats, rbinom, rnorm, runif)
+importFrom(stats, rbinom, rnorm, runif, setNames)
