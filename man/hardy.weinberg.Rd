@@ -1,16 +1,21 @@
 \name{hardy.weinberg}
 \alias{hardy.weinberg}
-\title{Computes Hardy-Weinberg frequencies for a multiallelic locus}
+\alias{multilocus.hw}
+\title{Computes Hardy-Weinberg frequencies for a multiallelic locus or across multiple loci}
 \usage{
 	hardy.weinberg(p=c(0.5,0.5),alleles=c("A","a"),as.matrix=FALSE)
+	multilocus.hw(nloci=2,p=NULL)
 }
 \arguments{
-	\item{p}{allele frequencies.}
+	\item{p}{allele frequencies. In the case of \code{multilocus.hw} the frequencies of the 'dominant' allele at each locus.}
 	\item{alleles}{names of the alleles.}
 	\item{as.matrix}{logical argument indicating whether to return the result in the form of a matrix (if \code{TRUE}) or a vector.}
+	\item{nloci}{for \code{multilocus.hw} the number of loci.}
 }
 \description{
-	Computes Hardy-Weinberg frequencies for a multiallelic locus using arbitrary allele frequencies.
+	\code{hardy.weinberg} computes Hardy-Weinberg frequencies for a multiallelic locus using arbitrary allele frequencies.
+	
+	\code{multilocus.hw} computes multilocus Hardy-Weinberg frequencies for a set of biallelic loci.
 }
 \value{
 	Returns a matrix or vector.

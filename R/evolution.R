@@ -26,6 +26,28 @@ hardy.weinberg<-function(p=c(0.5,0.5),alleles=c("A","a"),as.matrix=FALSE){
 	}
 }
 
+multilocus.hw<-function(nloci=2,p=NULL){
+	if(is.null(p)) p<-rep(0.5,nloci)
+	if(length(p)!=nloci) nloci<-length(p)
+	genotypes<-t(apply(cbind(p,1-p),1,hardy.weinberg))
+	COMBN<-permutations(n=3,r=nloci,set=T,repeats.allowed=T)
+	ALLELESp<-LETTERS[1:nloci]
+	ALLELESq<-letters[1:nloci]
+	GENOTYPE<-vector()
+	FREQ<-rep(1,nrow(COMBN))
+	for(i in 1:nrow(COMBN)){
+		for(j in 1:nloci){
+			FREQ[i]<-FREQ[i]*genotypes[j,COMBN[i,j]]
+			gtype<-if(COMBN[i,j]==1) paste(rep(ALLELESp[j],2),collapse="")
+				else if(COMBN[i,j]==2) paste(c(ALLELESp[j],ALLELESq[j]),collapse="")
+				else if(COMBN[i,j]==3) paste(rep(ALLELESq[j],2),collapse="")
+			GENOTYPE[i]<-if(j==1) gtype else paste(GENOTYPE[i],gtype,sep="")
+		}
+	}
+	hw<-setNames(FREQ,GENOTYPE)
+	hw
+}
+
 ## function to compute relative frequencies of a phenotypic trait
 ## for a polygenic trait under a simple additive genetic model
 ## written by Liam J. Revell 2018
