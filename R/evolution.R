@@ -66,7 +66,7 @@ phenotype.freq<-function(nloci=6,p=NULL,effect=1/nloci){
 	for(i in 1:length(phen)) freq[i]<-sum(FREQ[which(PHEN==phen[i])])
 	plot(phen,freq,type="b",pch=21,bg="grey",
 		xlab="phenotypic trait value",ylab="relative frequency",
-		cex=1.5,xlim=range(phen)+c(-0.5,0.5)*effect)
+		cex=1.5,xlim=range(phen)+c(-0.5,0.5)*effect,ylim=c(0,max(freq)))
 	for(i in 1:length(phen))
 		rect(phen[i]-0.4*effect,0,phen[i]+0.4*effect,
 		freq[i],border="grey",
