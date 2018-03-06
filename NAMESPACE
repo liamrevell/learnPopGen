@@ -1,7 +1,7 @@
-export(founder.event, freqdep, genetic.drift, hardy.weinberg, hawk.dove, mutation.selection, phenotype.freq, selection, sexratio,rcd)
+export(founder.event, freqdep, genetic.drift, hardy.weinberg, hawk.dove, mutation.selection, phenotype.freq, phenotype.selection, selection, sexratio,rcd)
 
 importFrom(graphics, abline, barplot, hist, layout, legend, lines, par, plot, rect)
-importFrom(grDevices, x11, dev.flush)
+importFrom(grDevices, x11, dev.flush, dev.hold)
 importFrom(gtools, permutations)
 importFrom(methods, hasArg)
 importFrom(phytools, make.transparent)
