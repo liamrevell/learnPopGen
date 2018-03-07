@@ -7,6 +7,10 @@ selection<-function(p0=0.01,w=c(1.0,0.9,0.8),time=100,show="p",pause=0,...){
 	else color<-"black"
 	if(hasArg(equil)) equil<-list(...)$equil
 	else equil<-FALSE
+	if(hasArg(lwd)) lwd<-list(...)$lwd
+	else lwd<-2
+	if(hasArg(lty)) lty<-list(...)$lty
+	else lty<-"solid"
 	if(equil){
 		if(w[2]>w[1]&&w[2]>w[3]){ ## overdominance
 			W<-w/w[2]
@@ -58,12 +62,12 @@ selection<-function(p0=0.01,w=c(1.0,0.9,0.8),time=100,show="p",pause=0,...){
 			ii<-(i-1):i
 			if(show=="p"){
 				if(i==2 && !add) plot(1:i,p,type="l",xlim=c(0,time),ylim=c(0,1),xlab="time",
-					main="frequency of A",col=color)
-				else lines(ii,p[ii],type="l",col=color)
+					main="frequency of A",col=color,lwd=lwd,lty=lty)
+				else lines(ii,p[ii],type="l",col=color,lwd=lwd,lty=lty)
 			} else if(show=="q" && !add){
 				if(i==2) plot(1:i,1-p,type="l",xlim=c(0,time),ylim=c(0,1),xlab="time",
-					ylab="q",main="frequency of a",col=color)
-				else lines(ii,1-p[ii],type="l",col=color)
+					ylab="q",main="frequency of a",col=color,lwd=lwd,lty=lty)
+				else lines(ii,1-p[ii],type="l",col=color,lwd=lwd,lty=lty)
 			} else if(show=="fitness" && !add){
 				if(i==2) plot(1:i,wbar/max(w),type="l",xlim=c(0,time),ylim=c(0,1),
 					xlab="time",main="mean fitness",col=color)
