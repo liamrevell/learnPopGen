@@ -1,7 +1,7 @@
-export(founder.event, freqdep, genetic.drift, hardy.weinberg, hawk.dove, multilocus.hw, mutation.selection, phenotype.freq, phenotype.selection, selection, sexratio,rcd)
+export(coalescent.plot, founder.event, freqdep, genetic.drift, hardy.weinberg, hawk.dove, multilocus.hw, mutation.selection, phenotype.freq, phenotype.selection, selection, sexratio,rcd)
 
-importFrom(graphics, abline, barplot, hist, layout, legend, lines, par, plot, rect)
-importFrom(grDevices, x11, dev.flush, dev.hold)
+importFrom(graphics, abline, axis, barplot, hist, layout, legend, lines, par, plot, plot.new, plot.window, points, rect, title)
+importFrom(grDevices, x11, dev.flush, dev.hold, rainbow)
 importFrom(gtools, permutations)
 importFrom(methods, hasArg)
 importFrom(phytools, make.transparent)
