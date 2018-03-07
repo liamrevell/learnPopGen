@@ -204,15 +204,20 @@ mutation.selection<-function(p0=1.0,w=c(1,1),u=0.001,time=100,show="q",pause=0,y
 	}
 }
 
-genetic.drift<-function(p0=0.5,Ne=20,nrep=10,time=100,show="p",pause=0.1){
+genetic.drift<-function(p0=0.5,Ne=20,nrep=10,time=100,show="p",pause=0.1,
+	...){
+	if(hasArg(colors)) colors<-list(...)$colors
+	else colors<-rep("black",nrep)
+	if(hasArg(lwd)) lwd<-list(...)$lwd
+	else lwd<-1
 	freq<-repMatrix(matrix(0,time,3),nrep)
 	p<-matrix(0,time,nrep)
 	hbar<-vector()
 	genotypes<-list()
 	for(i in 1:nrep) genotypes[[i]]<-matrix(sample(c(rep(1,round(2*p0*Ne)),
 		rep(0,2*Ne-round(2*p0*Ne)))),Ne,2)
-	for(i in 1:nrep) freq[[i]][1,]<-hist(rowSums(genotypes[[i]]),c(-0.5,0.5,1.5,2.5),
-		plot=FALSE)$density
+	for(i in 1:nrep) freq[[i]][1,]<-hist(rowSums(genotypes[[i]]),
+		c(-0.5,0.5,1.5,2.5),plot=FALSE)$density
 	for(i in 1:nrep) p[1,i]<-mean(genotypes[[i]])
 	X<-matrix(NA,nrep,3,dimnames=list(NULL,c("aa","Aa","AA")))
 	for(i in 1:nrep) X[i,]<-freq[[i]][1,]
@@ -234,13 +239,19 @@ genetic.drift<-function(p0=0.5,Ne=20,nrep=10,time=100,show="p",pause=0.1){
 			p[i,j]<-mean(genotypes[[j]])
 		}
 		for(j in 1:nrep) X[j,]<-freq[[j]][i,]
-		if(show=="genotypes") barplot(X,ylim=c(0,1),main="genotype frequencies",beside=TRUE)
+		if(show=="genotypes") barplot(X,ylim=c(0,1),main="genotype frequencies",
+			beside=TRUE,col=if(all(colors!="black")) colors else NULL)
 		else if(show=="p"){ 
 			if(i==2){ 
 				plot(1:i,p[1:i,1],type="l",ylim=c(0,1),xlim=c(1,time),
-					main="frequency of A",xlab="time",ylab="p")
-				if(nrep>1) for(j in 2:nrep) lines(1:i,p[1:i,j])
-			} else for(j in 1:nrep) lines((i-1):i,p[(i-1):i,j])
+					main="frequency of A",xlab="time",ylab="p",col=colors[1],
+					lwd=lwd)
+				if(p0<=0.5) text(paste("N =",Ne,sep=" "),x=0,y=1,pos=4)
+				else text(paste("N =",Ne,sep=" "),x=0,y=0,pos=4)
+				if(nrep>1) for(j in 2:nrep) lines(1:i,p[1:i,j],col=colors[j],
+					lwd=lwd)
+			} else for(j in 1:nrep) lines((i-1):i,p[(i-1):i,j],col=colors[j],
+				lwd=lwd)
 		}
 		else if(show=="heterozygosity"){
 			hbar[i]<-mean(X[,2])

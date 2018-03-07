@@ -121,6 +121,8 @@ phenotype.selection<-function(nloci=6,p=NULL,effect=1/nloci,beta=0.1,ngen=20,...
 coalescent.plot<-function(n=10,ngen=20,colors=NULL,...){
 	if(hasArg(sleep)) sleep<-list(...)$sleep
 	else sleep<-0.2
+	if(hasArg(lwd)) lwd<-list(...)$lwd
+	else lwd<-2
 	if(is.null(colors)) colors<-rainbow(n=n)
 	popn<-matrix(NA,ngen+1,n)
 	parent<-matrix(NA,ngen,n)
@@ -139,7 +141,7 @@ coalescent.plot<-function(n=10,ngen=20,colors=NULL,...){
 	for(i in 1:ngen){
 		dev.hold()
 		for(j in 1:n){
-			lines(c(parent[i,j],j),c(i-1,i),lwd=2,
+			lines(c(parent[i,j],j),c(i-1,i),lwd=lwd,
 				col=colors[popn[i+1,j]])
 		}
 		points(1:n,rep(i-1,n),bg=colors[popn[i,]],pch=21,
@@ -149,4 +151,33 @@ coalescent.plot<-function(n=10,ngen=20,colors=NULL,...){
 		dev.flush()
 		Sys.sleep(sleep)
 	}
+}
+
+drift.selection<-function(p0=0.5,Ne=100,w=c(1,1,1),ngen=400,nrep=10,
+	colors=NULL,...){
+	if(is.null(colors)) colors<-rainbow(nrep)
+	w<-(w/max(w))[3:1]
+	gametes<-rep(0,2*Ne)
+	gametes[1:round(p0*2*Ne)]<-1
+	gametes<-replicate(nrep,gametes,simplify=FALSE)
+	p<-lapply(gametes,mean)
+	for(i in 1:ngen){
+		genotypes<-lapply(gametes,function(x) matrix(sample(x),
+			length(x)/2,2))
+		fitness<-lapply(genotypes,function(x,w) w[rowSums(x)+1],w=w)
+		selected<-lapply(fitness,function(prob,x) 
+			cbind(sample(x,prob=prob,replace=TRUE),
+			sample(x,prob=prob,replace=TRUE)),x=Ne)
+		copy<-replicate(nrep,matrix(sample(1:2,2*Ne,replace=TRUE),
+			Ne,2),simplify=FALSE)
+		gametes<-mapply(function(g,s,c) c(diag(g[s[,1],][,c[,1]]),
+			diag(g[s[,2],][,c[,2]])),
+			g=genotypes,s=selected,c=copy,SIMPLIFY=FALSE)
+		for(j in 1:nrep) p[[j]][i+1]<-mean(gametes[[j]])
+	}
+	plot(0:ngen,p[[1]],type="l",col=colors[1],lwd=2,ylim=c(0,1),
+		xlab="time (generations)",ylab="f(A)")
+	nulo<-mapply(lines,x=replicate(nrep-1,0:ngen,simplify=FALSE),
+		y=p[2:nrep],col=colors[2:nrep],lwd=2)
+	invisible(p)
 }
