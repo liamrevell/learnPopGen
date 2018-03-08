@@ -181,3 +181,49 @@ drift.selection<-function(p0=0.5,Ne=100,w=c(1,1,1),ngen=400,nrep=10,
 		y=p[2:nrep],col=colors[2:nrep],lwd=2)
 	invisible(p)
 }
+
+msd<-function(p0=c(0.5,0.5),Ne=c(100,100),
+	w=list(c(1,1,1),c(1,1,1)),m=c(0.01,0.01),ngen=400,
+	colors=c("red","blue"),...){
+	if(hasArg(show.legend)) show.legend=list(...)$show.legend
+	else show.legend<-TRUE
+	w<-lapply(w,function(w) (w/max(w))[3:1])
+	gametes<-lapply(Ne,function(Ne) rep(0,2*Ne))
+	gametes<-mapply(function(p0,g,N){
+		g[1:round(p0*2*N)]<-1
+		g},p0=p0,g=gametes,N=Ne,SIMPLIFY=FALSE)
+	p<-lapply(gametes,mean)
+	for(i in 1:ngen){
+		genotypes<-lapply(gametes,function(x) matrix(sample(x),
+			length(x)/2,2))
+		migrants<-mapply(function(N,m) which(runif(N)<=(m/2)),N=Ne,
+			m=m,SIMPLIFY=FALSE)
+		for(j in 1:length(genotypes)){
+			to<-if(j==1) 2 else 1
+			genotypes[[to]]<-rbind(genotypes[[to]],
+				genotypes[[j]][migrants[[j]],])
+		}
+		for(j in 1:length(genotypes)){
+			if(length(migrants[[j]])>0)
+				genotypes[[j]]<-genotypes[[j]][-migrants[[j]],]
+		}
+		fitness<-mapply(function(x,w) w[rowSums(x)+1],x=genotypes,
+			w=w,SIMPLIFY=FALSE)
+		selected<-mapply(function(prob,N,Ne) 
+			cbind(sample(N,Ne,prob=prob,replace=TRUE),
+			sample(N,Ne,prob=prob,replace=TRUE)),prob=fitness,
+			N=sapply(genotypes,nrow),Ne=Ne,SIMPLIFY=FALSE)
+		copy<-lapply(Ne,function(Ne)
+			matrix(sample(1:2,2*Ne,replace=TRUE),Ne,2))
+		gametes<-mapply(function(g,s,c) c(diag(g[s[,1],][,c[,1]]),
+			diag(g[s[,2],][,c[,2]])),
+			g=genotypes,s=selected,c=copy,SIMPLIFY=FALSE)
+		for(j in 1:2) p[[j]][i+1]<-mean(gametes[[j]])
+	}
+	plot(0:ngen,p[[1]],type="l",col=colors[1],lwd=2,ylim=c(0,1),
+		xlab="time (generations)",ylab="f(A)")
+	lines(x=0:ngen,y=p[[2]],col=colors[2],lwd=2)
+	if(show.legend) legend(x="topright",legend=1:2,lty=1,col=colors,
+		lwd=2,bg=make.transparent("white",0.1))
+	invisible(p)
+}
