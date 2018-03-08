@@ -224,6 +224,6 @@ msd<-function(p0=c(0.5,0.5),Ne=c(100,100),
 		xlab="time (generations)",ylab="f(A)")
 	lines(x=0:ngen,y=p[[2]],col=colors[2],lwd=2)
 	if(show.legend) legend(x="topright",legend=1:2,lty=1,col=colors,
-		lwd=2,bg=make.transparent("white",0.1))
+		lwd=2,bg=make.transparent("white",0.8))
 	invisible(p)
 }
