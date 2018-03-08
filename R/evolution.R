@@ -196,7 +196,7 @@ msd<-function(p0=c(0.5,0.5),Ne=c(100,100),
 	for(i in 1:ngen){
 		genotypes<-lapply(gametes,function(x) matrix(sample(x),
 			length(x)/2,2))
-		migrants<-mapply(function(N,m) which(runif(N)<=(m/2)),N=Ne,
+		migrants<-mapply(function(N,m) which(runif(N)<=m),N=Ne,
 			m=m,SIMPLIFY=FALSE)
 		for(j in 1:length(genotypes)){
 			to<-if(j==1) 2 else 1
