@@ -123,7 +123,18 @@ coalescent.plot<-function(n=10,ngen=20,colors=NULL,...){
 	else sleep<-0.2
 	if(hasArg(lwd)) lwd<-list(...)$lwd
 	else lwd<-2
-	if(is.null(colors)) colors<-rainbow(n=n)
+	if(is.null(colors)){ 
+		colors<-rainbow(n=n)
+		if(hasArg(col.order)) col.order<-list(...)$col.order
+		else col.order<-"sequential"
+		if(col.order=="alternating"){
+			if(n%%2==1) 
+				ii<-as.vector(rbind(1:((n+1)/2),1:((n+1)/2)+(n+1)/2))
+			else
+				ii<-as.vector(rbind(1:(n/2),n/2+1:(n/2)))
+			colors<-colors[ii]
+		}
+	}
 	popn<-matrix(NA,ngen+1,n)
 	parent<-matrix(NA,ngen,n)
 	popn[1,]<-1:n
@@ -144,9 +155,9 @@ coalescent.plot<-function(n=10,ngen=20,colors=NULL,...){
 			lines(c(parent[i,j],j),c(i-1,i),lwd=lwd,
 				col=colors[popn[i+1,j]])
 		}
-		points(1:n,rep(i-1,n),bg=colors[popn[i,]],pch=21,
+		points(1:n,rep(i-1,n),col="grey",bg=colors[popn[i,]],pch=21,
 			cex=cx.pt)
-		points(1:n,rep(i,n),bg=colors[popn[i+1,]],pch=21,
+		points(1:n,rep(i,n),col="grey",bg=colors[popn[i+1,]],pch=21,
 			cex=cx.pt)
 		dev.flush()
 		Sys.sleep(sleep)
