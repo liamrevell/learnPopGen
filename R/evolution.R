@@ -123,6 +123,8 @@ coalescent.plot<-function(n=10,ngen=20,colors=NULL,...){
 	else sleep<-0.2
 	if(hasArg(lwd)) lwd<-list(...)$lwd
 	else lwd<-2
+	if(hasArg(mar)) mar<-list(...)$mar
+	else mar<-c(2.1,4.1,2.1,1.1)
 	if(is.null(colors)){ 
 		colors<-rainbow(n=n)
 		if(hasArg(col.order)) col.order<-list(...)$col.order
@@ -143,7 +145,7 @@ coalescent.plot<-function(n=10,ngen=20,colors=NULL,...){
 		popn[i+1,]<-popn[i,parent[i,]]
 	}
 	plot.new()
-	par(mar=c(2.1,4.1,2.1,1.1))
+	par(mar=mar)
 	plot.window(xlim=c(0.5,n+0.5),ylim=c(ngen,0))
 	axis(2)
 	title(ylab="time (generations)")
