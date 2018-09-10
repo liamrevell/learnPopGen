@@ -171,7 +171,7 @@ drift.selection<-function(p0=0.5,Ne=100,w=c(1,1,1),ngen=400,nrep=10,
 	if(is.null(colors)) colors<-rainbow(nrep)
 	w<-(w/max(w))[3:1]
 	gametes<-rep(0,2*Ne)
-	gametes[1:round(p0*2*Ne)]<-1
+	if(p0>0) gametes[1:round(p0*2*Ne)]<-1
 	gametes<-replicate(nrep,gametes,simplify=FALSE)
 	p<-lapply(gametes,mean)
 	for(i in 1:ngen){
@@ -190,8 +190,9 @@ drift.selection<-function(p0=0.5,Ne=100,w=c(1,1,1),ngen=400,nrep=10,
 	}
 	plot(0:ngen,p[[1]],type="l",col=colors[1],lwd=2,ylim=c(0,1),
 		xlab="time (generations)",ylab="f(A)")
-	nulo<-mapply(lines,x=replicate(nrep-1,0:ngen,simplify=FALSE),
-		y=p[2:nrep],col=colors[2:nrep],lwd=2)
+	if(nrep>1)
+		nulo<-mapply(lines,x=replicate(nrep-1,0:ngen,simplify=FALSE),
+			y=p[2:nrep],col=colors[2:nrep],lwd=2)
 	invisible(p)
 }
 
