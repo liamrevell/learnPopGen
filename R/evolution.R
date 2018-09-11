@@ -241,3 +241,21 @@ msd<-function(p0=c(0.5,0.5),Ne=c(100,100),
 		lwd=2,bg=make.transparent("white",0.8))
 	invisible(p)
 }
+
+clt<-function(nvar=1,nobs=1000,df=c("normal","uniform","exponential"),theta=1,
+	breaks="Sturges"){
+	df<-df[1]
+	foo<-if(df=="normal") function(n,theta){
+		rnorm(n,sd=sqrt(theta))
+	} else if(df=="uniform") function(n,theta){
+		runif(n,0,theta)
+	} else if(df=="exponential") function(n,theta){
+		rexp(n,rate=theta)
+	}
+	X<-matrix(foo(nvar*nobs,theta),nobs,nvar)
+	x<-rowSums(X)
+	obj<-hist(x,border="darkgrey",col=phytools::make.transparent("blue",0.1),
+		main=paste("CLT: the sum of",nvar,df,"distribution(s)"),
+		breaks=breaks)
+	lines(obj$mids,obj$counts,type="b",pch=21,bg="grey")
+}
