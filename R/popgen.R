@@ -93,22 +93,32 @@ selection<-function(p0=0.01,w=c(1.0,0.9,0.8),time=100,show="p",pause=0,...){
 	}
 }
 
-freqdep<-function(p0=0.01,s=0,time=100,show="p",pause=0){
+freqdep<-function(p0=0.01,s=0,time=100,show="p",pause=0,...){
+	if(hasArg(color)) color<-list(...)$color
+	else color<-"black"
+	p<-0:100/100
+	f11<-p^2
+	f12<-2*p*(1-p)
+	f22<-(1-p)^2
+	wbar<-f11*(1-3*f12+3*f22)+f12*(1-s*f12)+f22*(1-3*f12+3*f11)
+	wmax<-max(wbar)
 	if(show=="surface"){
-		p<-0:100/100
-		f11<-p^2; f12<-2*p*(1-p); f22<-(1-p)^2
-		wbar<-f11*(1-3*f12+3*f22)+f12*(1-s*f12)+f22*(1-3*f12+3*f11)
-		plot(p,wbar,type="l",ylim=c(0,1),main="mean fitness")
+		plot(p,wbar,type="l",ylim=c(0,max(1,wmax)),
+			main=expression(paste("mean fitness (",
+			bar(w),")",sep="")),ylab=expression(bar(w)),col=color)
 	}
 	else if(show=="deltap"){
 		p<-0:100/100
-		f11<-p^2; f12<-2*p*(1-p); f22<-(1-p)^2
+		f11<-p^2
+		f12<-2*p*(1-p)
+		f22<-(1-p)^2
 		wbar<-f11*(1-3*f12+3*f22)+f12*(1-s*f12)+f22*(1-3*f12+3*f11)
 		w11<-1-3*f12+3*f22
 		w12<-1-s*f12
 		w22<-1-3*f12+3*f11
 		deltap<-(p/wbar)*(p*w11+(1-p)*w12-wbar)
-		plot(p,deltap,type="l",main="delta p")
+		plot(p,deltap,type="l",main=expression(paste(Delta,"p as a function of p",
+			sep="")),ylab=expression(paste(Delta,"p",sep="")),col=color)
 		lines(c(0,1),c(0,0),lty=2)
 	} else {
 		if(show=="cobweb"){
@@ -119,12 +129,16 @@ freqdep<-function(p0=0.01,s=0,time=100,show="p",pause=0){
 			w12<-1-s*f12
 			w22<-1-3*f12+3*f11
 			p2<-(p/wbar)*(p*w11+(1-p)*w12-wbar)+p
-			plot(p,p2,type="l",xlab="p(t)",ylab="p(t+1)")
+			plot(p,p2,type="l",xlab=expression(p[t]),ylab=expression(p[t+1]),
+				main=expression(paste(p[t+1]," as a function of ",p[t],sep="")))
 			lines(c(0,1),c(0,1),lty=2)
 			dev.flush()
 		}
-		p<-wbar<-vector(); p[1]<-p0
-		f11<-p[1]^2; f12<-2*p[1]*(1-p[1]); f22<-(1-p[1])^2
+		p<-wbar<-vector()
+		p[1]<-p0
+		f11<-p[1]^2
+		f12<-2*p[1]*(1-p[1])
+		f22<-(1-p[1])^2
 		wbar[1]<-f11*(1-3*f12+3*f22)+f12*(1-s*f12)+f22*(1-3*f12+3*f11)
 		for(i in 2:time){
 			p[i]<-p[i-1]
@@ -137,19 +151,21 @@ freqdep<-function(p0=0.01,s=0,time=100,show="p",pause=0){
 			ii<-(i-1):i
 			if(show=="p"){
 				if(i==2) plot(1:i,p,type="l",xlim=c(0,time),ylim=c(0,1),xlab="time",
-					main="frequency of A")
-				else lines(ii,p[ii],type="l")
+					main="frequency of A",col=color)
+				else lines(ii,p[ii],type="l",col=color)
 			} else if(show=="q"){
 				if(i==2) plot(1:i,1-p,type="l",xlim=c(0,time),ylim=c(0,1),xlab="time",
-					ylab="q",main="frequency of a")
-				else lines(ii,p[ii],type="l")
+					ylab="q",main="frequency of a",col=color)
+				else lines(ii,1-p[ii],type="l",col=color)
 			} else if(show=="fitness"){
-				if(i==2) plot(1:i,wbar,type="l",xlim=c(0,time),ylim=c(0,1),xlab="time",
-					main="mean fitness")
-				else lines(ii,wbar[ii],type="l")
+				if(i==2) plot(1:i,wbar,type="l",xlim=c(0,time),ylim=c(0,max(1,wmax)),
+					xlab="time",
+					main=expression(paste("mean fitness (",bar(w),")",sep="")),
+					ylab=expression(bar(w)),col=color)
+				else lines(ii,wbar[ii],type="l",col=color)
 			} else if(show=="cobweb"){
-				lines(c(p[i-1],p[i-1]),c(p[i-1],p[i]))
-				lines(c(p[i-1],p[i]),c(p[i],p[i]))
+				lines(c(p[i-1],p[i-1]),c(p[i-1],p[i]),col=color)
+				lines(c(p[i-1],p[i]),c(p[i],p[i]),col=color)
 			} else {
 				message("not a recognized option")
 				break
