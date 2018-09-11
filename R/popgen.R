@@ -11,21 +11,21 @@ selection<-function(p0=0.01,w=c(1.0,0.9,0.8),time=100,show="p",pause=0,...){
 	else lwd<-2
 	if(hasArg(lty)) lty<-list(...)$lty
 	else lty<-"solid"
-	if(equil){
-		if(w[2]>w[1]&&w[2]>w[3]){ ## overdominance
-			W<-w/w[2]
-			eq<-(1-W[3])/((1-W[1])+(1-W[3]))
-		} else if(w[2]<w[1]&&w[2]<w[3]){ ## underdominance
-			W<-w/w[2]
-			eq<-(1-W[3])/((1-W[1])+(1-W[3]))
-		} else if(1%in%which(w==max(w))){ 
-			eq<-1
-		} else eq<-0
-	}
+	## compute equilibrium
+	if(w[2]>w[1]&&w[2]>w[3]){ ## overdominance
+		W<-w/w[2]
+		eq<-(1-W[3])/((1-W[1])+(1-W[3]))
+	} else if(w[2]<w[1]&&w[2]<w[3]){ ## underdominance
+		W<-w/w[2]
+		eq<-(1-W[3])/((1-W[1])+(1-W[3]))
+	} else if(1%in%which(w==max(w))){ 
+		eq<-1
+	} else eq<-0
 	if(show=="surface"){
 		p<-0:100/100
 		wbar<-p^2*w[1]+2*p*(1-p)*w[2]+(1-p)^2*w[3]
-		plot(p,wbar,type="l",ylim=c(0,1),main=expression(paste("mean fitness (",
+		plot(p,wbar,type="l",ylim=c(0,1.1*max(wbar)),
+			main=expression(paste("mean fitness (",
 			bar(w),")",sep="")),ylab=expression(bar(w)),col=color)
 		if(equil) abline(v=eq,lty="dotted")
 	}
@@ -69,9 +69,11 @@ selection<-function(p0=0.01,w=c(1.0,0.9,0.8),time=100,show="p",pause=0,...){
 					ylab="q",main="frequency of a",col=color,lwd=lwd,lty=lty)
 				else lines(ii,1-p[ii],type="l",col=color,lwd=lwd,lty=lty)
 			} else if(show=="fitness" && !add){
-				if(i==2) plot(1:i,wbar/max(w),type="l",xlim=c(0,time),ylim=c(0,1),
-					xlab="time",main="mean fitness",col=color)
-				else lines(ii,wbar[ii]/max(w),type="l",col=color)
+				if(i==2) plot(1:i,wbar,type="l",xlim=c(0,time),
+					ylim=c(0,1.1*(eq^2*w[1]+2*eq*(1-eq)*w[2]+(1-eq)^2*w[3])),
+					xlab="time",main=expression(paste("mean fitness (",
+					bar(w),")",sep="")),ylab=expression(bar(w)),col=color)
+				else lines(ii,wbar[ii],type="l",col=color)
 			} else if(show=="cobweb"){
 				lines(c(p[i-1],p[i-1]),c(p[i-1],p[i]),col=color)
 				lines(c(p[i-1],p[i]),c(p[i],p[i]),col=color)
@@ -79,7 +81,12 @@ selection<-function(p0=0.01,w=c(1.0,0.9,0.8),time=100,show="p",pause=0,...){
 				message("not a recognized option")
 				break
 			}
-			if(equil) abline(h=eq,lty="dotted")
+			if(equil) {
+				if(show=="p") abline(h=eq,lty="dotted")
+				if(show=="q") abline(h=1-eq,lty="dotted")
+				if(show=="fitness") abline(h=eq^2*w[1]+2*eq*(1-eq)*w[2]+(1-eq)^2*w[3],
+					lty="dotted")
+			}
 			dev.flush()
 			Sys.sleep(pause)
 		}
