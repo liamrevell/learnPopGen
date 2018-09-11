@@ -24,7 +24,7 @@ selection<-function(p0=0.01,w=c(1.0,0.9,0.8),time=100,show="p",pause=0,...){
 	if(show=="surface"){
 		p<-0:100/100
 		wbar<-p^2*w[1]+2*p*(1-p)*w[2]+(1-p)^2*w[3]
-		plot(p,wbar,type="l",ylim=c(0,1.1*max(wbar)),
+		plot(p,wbar,type="l",ylim=c(0,1.1*max(w)),
 			main=expression(paste("mean fitness (",
 			bar(w),")",sep="")),ylab=expression(bar(w)),col=color)
 		if(equil) abline(v=eq,lty="dotted")
@@ -70,7 +70,7 @@ selection<-function(p0=0.01,w=c(1.0,0.9,0.8),time=100,show="p",pause=0,...){
 				else lines(ii,1-p[ii],type="l",col=color,lwd=lwd,lty=lty)
 			} else if(show=="fitness" && !add){
 				if(i==2) plot(1:i,wbar,type="l",xlim=c(0,time),
-					ylim=c(0,1.1*(eq^2*w[1]+2*eq*(1-eq)*w[2]+(1-eq)^2*w[3])),
+					ylim=c(0,1.1*max(w)),
 					xlab="time",main=expression(paste("mean fitness (",
 					bar(w),")",sep="")),ylab=expression(bar(w)),col=color)
 				else lines(ii,wbar[ii],type="l",col=color)
