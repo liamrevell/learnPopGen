@@ -9,7 +9,7 @@
 	\item{nvar}{number of random variables to add.}
 	\item{nobs}{total number of observations.}
 	\item{df}{distribution functions of individual random variables to add.}
-	\item{theta}{parameter of the distribution functions: variance in the case of \code{df = "normal"}, maximum value in the case of \code{"uniform"}, and rate in the case of \code{"exponential"}.
+	\item{theta}{parameter of the distribution functions: variance in the case of \code{df = "normal"}, maximum value in the case of \code{"uniform"}, and rate in the case of \code{"exponential"}.}
 	\item{breaks}{breaks (see \code{\link{hist}}).}
 }
 \description{
