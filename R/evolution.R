@@ -254,6 +254,7 @@ clt<-function(nvar=1,nobs=1000,df=c("normal","uniform","exponential"),theta=1,
 	}
 	X<-matrix(foo(nvar*nobs,theta),nobs,nvar)
 	x<-rowSums(X)
+	if(is.integer(breaks)) breaks<-seq(min(x),max(x),by=diff(range(x))/(breaks-1))
 	obj<-hist(x,border="darkgrey",col=phytools::make.transparent("blue",0.1),
 		main=paste("CLT: the sum of",nvar,df,"distribution(s)"),
 		breaks=breaks)
