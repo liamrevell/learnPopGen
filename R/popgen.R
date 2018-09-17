@@ -319,14 +319,14 @@ founder.event<-function(p0=0.5,Ne=1000,Nf=10,ttime=100,etime=50,show="p",...){
 			}
 			if((i+1)%in%etime){
 				new.gen<-matrix(NA,Nf,2)
-				for(j in 1:Nf) new.gen[j,]<-sample(genotypes,size=2)
+				for(j in 1:Nf) new.gen[j,]<-sample(genotypes,size=2,replace=TRUE)
 			} else {
 				new.gen<-matrix(NA,Ne,2)
-				for(j in 1:Ne) new.gen[j,]<-sample(genotypes,size=2)
+				for(j in 1:Ne) new.gen[j,]<-sample(genotypes,size=2,replace=TRUE)
 			}
 		} else {
 			new.gen<-matrix(NA,Ne,2) 
-			for(j in 1:Ne) new.gen[j,]<-sample(genotypes,size=2)
+			for(j in 1:Ne) new.gen[j,]<-sample(genotypes,size=2,replace=TRUE)
 		}
 		genotypes<-new.gen
 		p[i]<-mean(genotypes)
@@ -341,5 +341,5 @@ founder.event<-function(p0=0.5,Ne=1000,Nf=10,ttime=100,etime=50,show="p",...){
 	if(length(etime)==1) abline(v=etime,col=make.transparent("grey",0.5),lwd=6)
 	else rect(xleft=etime[1],ybottom=par()$usr[3],
 			xright=etime[length(etime)],ytop=par()$usr[4],
-			col=make.transparent("grey",0.5),border=0)
+			col=make.transparent("grey",0.5),border=NA)
 }
