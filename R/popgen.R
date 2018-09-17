@@ -303,27 +303,43 @@ repMatrix<-function(X,times){
 	return(Z)
 }
 
-founder.event<-function(p0=0.5,Ne=1000,Nf=10,ttime=100,etime=50,show="p"){
-	genotypes<-matrix(sample(c(rep(1,round(2*p0*Ne)),rep(0,2*Ne-round(2*p0*Ne)))),Ne,2)
+founder.event<-function(p0=0.5,Ne=1000,Nf=10,ttime=100,etime=50,show="p",...){
+	if(hasArg(ltype)) ltype<-list(...)$ltype
+	else ltype<-"s"
+	genotypes<-matrix(sample(c(rep(1,round(2*p0*Ne)),
+		rep(0,2*Ne-round(2*p0*Ne)))),Ne,2)
 	p<-v<-vector()
 	p[1]<-mean(genotypes)
 	v[1]<-p[1]*(1-p[1])
 	for(i in 2:ttime){
-		new.gen<-matrix(NA,Ne,2)
-		if(i==etime){
-			founder<-genotypes[sample(1:Ne,size=Nf),]
-			for(j in 1:Ne) new.gen[j,]<-sample(founder,size=2)
-		} else for(j in 1:Ne) new.gen[j,]<-sample(genotypes,size=2)
+		if(i%in%etime){
+			if(i==etime[1]){ 
+				founder<-genotypes[sample(1:Ne,size=Nf),]
+				genotypes<-founder
+			}
+			if((i+1)%in%etime){
+				new.gen<-matrix(NA,Nf,2)
+				for(j in 1:Nf) new.gen[j,]<-sample(genotypes,size=2)
+			} else {
+				new.gen<-matrix(NA,Ne,2)
+				for(j in 1:Ne) new.gen[j,]<-sample(genotypes,size=2)
+			}
+		} else {
+			new.gen<-matrix(NA,Ne,2) 
+			for(j in 1:Ne) new.gen[j,]<-sample(genotypes,size=2)
+		}
 		genotypes<-new.gen
 		p[i]<-mean(genotypes)
 		v[i]<-p[i]*(1-p[i])
 	}
-	if(show=="p"){ 
-		plot(1:ttime,p,type="l",main="frequency of A",xlab="time",ylim=c(0,1))
-		lines(c(etime,etime),c(0,1),lty=2)
-	} else if(show=="var"){ 
-		plot(1:ttime,v,type="l",main="genetic variation",xlab="time",ylim=c(0,0.3))
-		lines(c(etime,etime),c(0,0.3),lty=2)
-	}
+	if(show=="p")
+		plot(1:ttime,p,main="frequency of A",xlab="time",ylim=c(0,1),type=ltype,
+			ylab=expression(p[A]))
+	else if(show=="var")
+		plot(1:ttime,v,main="genetic variation",xlab="time",ylim=c(0,0.3),type=ltype,
+			ylab=expression(p[A]*(1-p[A])))
+	if(length(etime)==1) abline(v=etime,col=make.transparent("grey",0.5),lwd=6)
+	else rect(xleft=etime[1],ybottom=par()$usr[3],
+			xright=etime[length(etime)],ytop=par()$usr[4],
+			col=make.transparent("grey",0.5),border=0)
 }
-
