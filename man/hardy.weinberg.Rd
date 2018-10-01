@@ -3,11 +3,11 @@
 \alias{multilocus.hw}
 \title{Computes Hardy-Weinberg frequencies for a multiallelic locus or across multiple loci}
 \usage{
-	hardy.weinberg(p=c(0.5,0.5),alleles=c("A","a"),as.matrix=FALSE)
-	multilocus.hw(nloci=2,p=NULL)
+	hardy.weinberg(p=c(0.5,0.5), alleles=c("A","a"), as.matrix=FALSE)
+	multilocus.hw(nloci=2, p=NULL)
 }
 \arguments{
-	\item{p}{allele frequencies. In the case of \code{multilocus.hw} the frequencies of the 'dominant' allele at each locus.}
+	\item{p}{allele frequencies. In the case of \code{multilocus.hw} the frequencies of the \emph{dominant} (in this case, merely uppercase) allele at each locus.}
 	\item{alleles}{names of the alleles.}
 	\item{as.matrix}{logical argument indicating whether to return the result in the form of a matrix (if \code{TRUE}) or a vector.}
 	\item{nloci}{for \code{multilocus.hw} the number of loci.}

@@ -2,7 +2,7 @@
 \alias{sexratio}
 \title{Hypothetical analysis of frequency dependent selection on a sex determining genetic locus}
 \usage{
-	sexratio(p0=0.01,time=40,show="p",pause=0,sex.Aa=c(0.5,0.5))
+	sexratio(p0=0.01, time=40, show="p", pause=0, sex.Aa=c(0.5,0.5))
 }
 \arguments{
 	\item{p0}{Starting frequency for the \emph{A} allele. Individuals with \emph{AA} genotypes are male, while individuals with \emph{Aa} genotypes are male or female with probability given by \code{sex.Aa}.}

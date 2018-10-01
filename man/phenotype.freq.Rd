@@ -3,8 +3,8 @@
 \alias{phenotype.selection}
 \title{Computes phenotypic distribution and its change through time due to natural selection on a polygenic trait}
 \usage{
-	phenotype.freq(nloci=6,p=NULL,effect=1/nloci)
-	phenotype.selection(nloci=6,p=NULL,effect=1/nloci,beta=0.1,ngen=20,...)
+	phenotype.freq(nloci=6, p=NULL, effect=1/nloci)
+	phenotype.selection(nloci=6, p=NULL, effect=1/nloci, beta=0.1, ngen=20, ...)
 }
 \arguments{
 	\item{nloci}{number of loci. For simplicity all loci are assumed to be biallelic.}

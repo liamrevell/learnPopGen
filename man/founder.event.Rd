@@ -2,10 +2,10 @@
 \alias{founder.event}
 \title{Simulation of a founder event or population bottleneck}
 \usage{
-	founder.event(p0=0.5,Ne=1000,Nf=10,ttime=100,etime=50,show="p",...)
+	founder.event(p0=0.5, Ne=1000, Nf=10, ttime=100, etime=50, show="p", ...)
 }
 \arguments{
-	\item{p0}{Starting frequency for the A allele.}
+	\item{p0}{Starting frequency for the \emph{A} allele.}
 	\item{Ne}{Effective population size at the start of the simulation and after the founding event.}
 	\item{Nf}{Size of the founding population.}
 	\item{ttime}{Total time of the simulation.}

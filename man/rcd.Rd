@@ -2,7 +2,7 @@
 \alias{rcd}
 \title{Simulation of reproductive character displacement in an ecological community}
 \usage{
-	rcd(nsp=3,nindivs=c(700,400,100),w_t=10,gen=c(500,500),figs="on",pf=100)
+	rcd(nsp=3, nindivs=c(700,400,100), w_t=10, gen=c(500,500), figs="on", pf=100)
 }
 \arguments{
 	\item{nsp}{Number of species in the simulation. If \code{figs="on"}, \code{nsp} must be 1, 2, or 3.}

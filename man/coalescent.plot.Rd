@@ -2,7 +2,7 @@
 \alias{coalescent.plot}
 \title{Creates a (usually animated) simulation of gene coalescence within a population}
 \usage{
-	coalescent.plot(n=10,ngen=20,colors=NULL,...)
+	coalescent.plot(n=10, ngen=20, colors=NULL, ...)
 }
 \arguments{
 	\item{n}{number of haploid individuals or gene copies.}
@@ -11,7 +11,7 @@
 	\item{...}{optional arguments.}
 }
 \description{
-	Coalescence or coalescent theory is a model for genetic drift within a population in which we envision gene copies merging or 'coalescing' into ancestors in the past. This function generates a(n) (optionally animated) visualization of this process of coalescence within a population.
+	Coalescence or coalescent theory is a model for genetic drift within a population in which we envision gene copies merging or "coalescing" into ancestors in the past. This function generates a(n) (optionally animated) visualization of this process of coalescence within a population.
 }
 \value{
 	Creates a plot or animation.

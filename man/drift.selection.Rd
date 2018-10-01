@@ -1,11 +1,11 @@
 \name{drift.selection}
 \alias{drift.selection}
-\title{Genetic drift & selection simulation}
+\title{Simulation of genetic drift & natural selection at a biallelic locus}
 \usage{
-	drift.selection(p0=0.5,Ne=100,w=c(1,1,1),ngen=400,nrep=10,colors=NULL,...)
+	drift.selection(p0=0.5, Ne=100, w=c(1,1,1), ngen=400, nrep=10, colors=NULL, ...)
 }
 \arguments{
-	\item{p0}{starting frequency for the A allele.}
+	\item{p0}{starting frequency for the \emph{A} allele.}
 	\item{Ne}{effective population size.}
 	\item{w}{fitnesses of the three genotypes: \emph{AA}, \emph{Aa}, and \emph{aa}.}
 	\item{nrep}{number of replicate simulations.}

@@ -2,19 +2,20 @@
 \alias{mutation.selection}
 \title{Gene frequencies over time under mutation-selection balance}
 \usage{
-	mutation.selection(p0=1.0,w=c(1,1),u=0.001,time=100,show="q",pause=0,ylim=c(0,1))
+	mutation.selection(p0=1.0, w=c(1,1), u=0.001, time=100, show="q", pause=0, 
+		ylim=c(0,1))
 }
 \arguments{
-	\item{p0}{Starting frequency for the A allele.}
+	\item{p0}{Starting frequency for the \emph{A} allele.}
 	\item{w}{Fitnesses of the heterozygote (\emph{Aa}) and homozygote deleterious (\emph{aa}) genotypes. The fitness of genotype \emph{AA} is assumed to be 1.0.}
-	\item{u}{Rate at which \emph{A} alleles mutate to \emph{a}.}
+	\item{u}{Rate at which \emph{A} alleles are converted to \emph{a} alleles by mutation.}
 	\item{time}{Number of generations to run the analysis.}
 	\item{show}{Two options for plotting. \code{"q"} shows the frequency of a through time; \code{"fitness"} plots the mean fitness over time. The default is \code{show="q"}.}
 	\item{pause}{Pause between generations. \code{pause=0.01} (for instance) might smooth animation.}
-	\item{ylim}{Limits on the y-axis for plotting.}
+	\item{ylim}{Limits on the \emph{y}-axis for plotting.}
 }
 \description{
-	This function performs numerical analysis of mutation-selection balance with mutation from A to a and selection against (either or both of) Aa and aa.
+	This function performs numerical analysis of mutation-selection balance with mutation from \emph{A} to \emph{a} and selection against (either or both of) \emph{Aa} and \emph{aa}.
 }
 \value{
 	The function creates one of two possible plots, depending on the value of \code{show}.

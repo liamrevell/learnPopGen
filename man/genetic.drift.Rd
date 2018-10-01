@@ -2,7 +2,7 @@
 \alias{genetic.drift}
 \title{Genetic drift simulation}
 \usage{
-	genetic.drift(p0=0.5,Ne=20,nrep=10,time=100,show="p",pause=0.1,...)
+	genetic.drift(p0=0.5, Ne=20, nrep=10, time=100, show="p", pause=0.1, ...)
 }
 \arguments{
 	\item{p0}{Starting frequency for the A allele.}

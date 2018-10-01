@@ -2,11 +2,11 @@
 \alias{msd}
 \title{Migration, drift, and selection}
 \usage{
-	msd(p0=c(0.5,0.5),Ne=c(100,100),w=list(c(1,1,1),c(1,1,1)),
-		m=c(0.01,0.01),ngen=400,colors=c("red","blue"),...)
+	msd(p0=c(0.5,0.5), Ne=c(100,100), w=list(c(1,1,1),c(1,1,1)), 
+		m=c(0.01,0.01), ngen=400, colors=c("red","blue"), ...)
 }
 \arguments{
-	\item{p0}{starting frequency for the A allele in each of two populations.}
+	\item{p0}{starting frequency for the \emph{A} allele in each of two populations.}
 	\item{Ne}{effective population size for each of two populations.}
 	\item{w}{fitnesses of the three genotypes (\emph{AA}, \emph{Aa}, and \emph{aa}, in that order) in each of the two populations. \code{w} should take the form of a list of two vectors.}
 	\item{m}{rates of migration \emph{from} the first population to the second, and from the second population to the first, in that order. This value is best interpreted as the \emph{probability} that an individual born in population 1 will migrate to population 2 before reproduction, and \emph{vice versa}.}

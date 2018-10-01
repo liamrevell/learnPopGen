@@ -2,7 +2,7 @@
 \alias{hawk.dove}
 \title{Analysis of hawk-dove game theoretic model}
 \usage{
-	hawk.dove(p=c(0.01,0.99),M=NULL,time=100)
+	hawk.dove(p=c(0.01,0.99), M=NULL, time=100)
 }
 \arguments{
 	\item{p}{Starting frequency of hawk & dove phenotypes, respectively. Should correspond with the rows of \code{M}.}
@@ -20,7 +20,9 @@
 	\code{\link{freqdep}}
 }
 \examples{
-	hawk.dove(time=100)
+	hawk.dove(time=60)
+	Payoff<-matrix(c(0.5,0.6,1.5,1.0),2,2)
+	hawk.dove(M=Payoff,time=60)
 }
 \keyword{game theory}
 \keyword{evolutionary theory}
