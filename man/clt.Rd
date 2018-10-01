@@ -19,6 +19,9 @@
 	Creates a plot.
 }
 \author{Liam Revell \email{liam.revell@umb.edu}}
+\seealso{
+	\code{\link{phenotype.freq}}
+}
 \examples{
 	clt(nvar=1,df="exponential")
 	clt(nvar=10,df="exponential")

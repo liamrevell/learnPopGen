@@ -17,6 +17,9 @@
 	Creates a plot or animation.
 }
 \author{Liam Revell \email{liam.revell@umb.edu}}
+\seealso{
+	\code{\link{drift.selection}}, \code{\link{genetic.drift}}
+}
 \examples{
 	coalescent.plot()
 	coalescent.plot(n=20,ngen=30,col.order="alternating")

@@ -16,6 +16,9 @@
 	The function creates a two panel plot. The upper panel shows the relative frequencies of each of the two interacting phenotypes. The lower panel shows mean fitness of the population and of each morph through time.
 }
 \author{Liam Revell \email{liam.revell@umb.edu}}
+\seealso{
+	\code{\link{freqdep}}
+}
 \examples{
 	hawk.dove(time=100)
 }

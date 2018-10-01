@@ -27,8 +27,7 @@
 \examples{
 	msd()
 	msd(p0=c(0.25,0.75),w=list(c(1,0.9,0.8),c(0.8,0.9,1)))
-	msd(p0=c(0.25,0.75),w=list(c(1,0.9,0.8),c(0.8,0.9,1)),
-		m=c(0.1,0.1))
+	msd(p0=c(0.75,0.25),w=list(c(1,0.9,0.8),c(0.8,0.9,1)),m=c(0.1,0.1))
 }
 \keyword{population genetics}
 \keyword{drift}

@@ -20,7 +20,7 @@
 }
 \author{Liam Revell \email{liam.revell@umb.edu}}
 \seealso{
-  \code{\link{freqdep}}
+	\code{\link{drift.selection}}, \code{\link{freqdep}}, \code{\link{msd}}, \code{\link{mutation.selection}}
 }
 \examples{
 	selection(w=c(1.0,0.8,0.8),time=500)

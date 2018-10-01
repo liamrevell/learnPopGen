@@ -19,11 +19,11 @@
 }
 \author{Liam Revell \email{liam.revell@umb.edu}}
 \seealso{
-  \code{\link{sexratio}}
+  \code{\link{freqdep}}
 }
 \examples{
 	sexratio()
-	sexratio(p0=0.001,show="sex-ratio",pause=0.01)
+	sexratio(p0=0.001,show="sex-ratio")
 	sexratio(p0=0.001,show="fitness")
 	sexratio(p0=0.001,show="sex-ratio",sex.Aa=c(1,0))
 }

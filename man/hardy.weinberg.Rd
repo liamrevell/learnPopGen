@@ -21,6 +21,9 @@
 	Returns a matrix or vector.
 }
 \author{Liam Revell \email{liam.revell@umb.edu}}
+\seealso{
+	\code{\link{phenotype.freq}}
+}
 \examples{
 	hardy.weinberg()
 	hardy.weinberg(p=c(0.4,0.3,0.2,0.1),alleles=letters[1:4])

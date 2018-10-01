@@ -20,7 +20,7 @@
 }
 \author{Liam Revell \email{liam.revell@umb.edu}}
 \seealso{
- 	\code{\link{genetic.drift}}, \code{\link{selection}}
+ 	\code{\link{drift.selection}}, \code{\link{genetic.drift}}, \code{\link{freqdep}}, \code{\link{selection}}
 }
 \examples{
 	\dontrun{

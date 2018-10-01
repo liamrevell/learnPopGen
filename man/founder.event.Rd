@@ -21,7 +21,7 @@
 }
 \author{Liam Revell \email{liam.revell@umb.edu}}
 \seealso{
-  \code{\link{genetic.drift}}
+  \code{\link{drift.selection}}, \code{\link{genetic.drift}}
 }
 \examples{
 	founder.event()

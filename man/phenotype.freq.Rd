@@ -23,6 +23,9 @@
 	Creates a plot or animation.
 }
 \author{Liam Revell \email{liam.revell@umb.edu}}
+\seealso{
+	\code{\link{clt}}, \code{\link{selection}}
+}
 \examples{
 	phenotype.freq(n=4)
 	phenotype.freq(nloci=6,p=runif(n=6),effect=1/6)
