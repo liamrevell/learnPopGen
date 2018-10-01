@@ -14,7 +14,7 @@
 	\item{...}{optional arguments.}
 }
 \description{
-	This function simulates genetic drift at a biallelic genetic locus with no selection and no mutation in a sexually reproducing diploid population or set of populations.
+	This function simulates genetic drift at a biallelic genetic locus with no selection and no mutation in a sexually reproducing diploid population or set of populations. It is essentially redundant with \code{\link{drift.selection}}, but in which there is no difference in relative fitness among genotypes; however, it also allows the user to visualize heterozygosity or genetic variation through time - options that are not yet implemented in \code{\link{drift.selection}}.
 }
 \value{
 	The function creates one of several possible plots, depending on the value of \code{show}.

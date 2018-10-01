@@ -14,7 +14,7 @@
 	\item{...}{optional arguments.}
 }
 \description{
-	Simulates drift and natural selection.
+	Simulates drift and natural selection at a single biallelic locus within one or various populations.
 }
 \value{
 	The function creates a plot and returns a list containing the allele frequency through time for each simulation.

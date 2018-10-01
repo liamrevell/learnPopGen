@@ -1,6 +1,6 @@
 \name{coalescent.plot}
 \alias{coalescent.plot}
-\title{Computes phenotypic distribution and its change through time due to natural selection on a polygenic trait}
+\title{Creates a (usually animated) simulation of gene coalescence within a population}
 \usage{
 	coalescent.plot(n=10,ngen=20,colors=NULL,...)
 }
@@ -11,7 +11,7 @@
 	\item{...}{optional arguments.}
 }
 \description{
-	Creates a coalescent genealogy plot.
+	Coalescence or coalescent theory is a model for genetic drift within a population in which we envision gene copies merging or 'coalescing' into ancestors in the past. This function generates a(n) (optionally animated) visualization of this process of coalescence within a population.
 }
 \value{
 	Creates a plot or animation.
@@ -19,5 +19,6 @@
 \author{Liam Revell \email{liam.revell@umb.edu}}
 \examples{
 	coalescent.plot()
+	coalescent.plot(n=20,ngen=30,col.order="alternating")
 }
 \keyword{population genetics}
