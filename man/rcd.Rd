@@ -23,7 +23,9 @@
  	\code{\link{genetic.drift}}, \code{\link{selection}}
 }
 \examples{
-	\dontrun{X<-rcd(nsp=2,nindivs=c(500,500))}
+	\dontrun{
+		obj<-rcd(nsp=2,nindivs=c(500,500))
+	}
 }
 \keyword{population genetics}
 \keyword{drift}

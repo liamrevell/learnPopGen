@@ -6,8 +6,8 @@
 }
 \arguments{
 	\item{p0}{Starting frequency for the A allele.}
-	\item{w}{Fitnesses of the heterozygote (Aa) and homozygote deleterious (aa) genotypes. The fitness of AA is assumed to be 1.0.}
-	\item{u}{Rate at with A mutates to a.}
+	\item{w}{Fitnesses of the heterozygote (\emph{Aa}) and homozygote deleterious (\emph{aa}) genotypes. The fitness of genotype \emph{AA} is assumed to be 1.0.}
+	\item{u}{Rate at which \emph{A} alleles mutate to \emph{a}.}
 	\item{time}{Number of generations to run the analysis.}
 	\item{show}{Two options for plotting. \code{"q"} shows the frequency of a through time; \code{"fitness"} plots the mean fitness over time. The default is \code{show="q"}.}
 	\item{pause}{Pause between generations. \code{pause=0.01} (for instance) might smooth animation.}

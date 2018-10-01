@@ -1,4 +1,4 @@
-# functions by Liam Revell 2012 (some small updates 2017, 2018)
+## functions by Liam Revell 2012 (some small updates 2017, 2018)
 
 selection<-function(p0=0.01,w=c(1.0,0.9,0.8),time=100,show="p",pause=0,...){
 	if(hasArg(add)) add<-list(...)$add
@@ -176,33 +176,65 @@ freqdep<-function(p0=0.01,s=0,time=100,show="p",pause=0,...){
 	}
 }
 
-sexratio<-function(p0=0.01,time=100,show="p",pause=0){
-	p<-wbar<-vector(); p[1]<-p0
-	fm<-p[1]^2+p[1]*(1-p[1]); ff<-(1-p[1])^2+p[1]*(1-p[1])
-	wm<-0.5/fm; wf<-0.5/ff
-	wbar[1]<-fm*wm+wf*ff
+sexratio<-function(p0=0.01,time=40,show="p",pause=0,sex.Aa=c(0.5,0.5)){
+	p<-fm<-ff<-wm<-wf<-wbar<-vector()
+	p[1]<-p0
+	fm[1]<-p[1]^2+2*p[1]*(1-p[1])*sex.Aa[1]
+	ff[1]<-(1-p[1])^2+2*p[1]*(1-p[1])*sex.Aa[2]
+	wm[1]<-0.5/fm[1]
+	wf[1]<-0.5/ff[1]
+	wbar[1]<-fm[1]*wm[1]+wf[1]*ff[1]
 	for(i in 2:time){
 		p[i]<-p[i-1]
-		w<-c(wm,(wm+wf)/2,wf)
+		w<-c(wm[i-1],sex.Aa[1]*wm[i-1]+sex.Aa[2]*wf[i-1],wf[i-1])
 		p[i]<-(p[i]^2*w[1]+p[i]*(1-p[i])*w[2])/wbar[i-1]
-		fm<-p[i]^2+p[i]*(1-p[i]); ff<-(1-p[i])^2+p[i]*(1-p[i])
-		wm<-0.5/fm; wf<-0.5/ff
-		wbar[i]<-fm*wm+wf*ff
+		fm[i]<-p[i]^2+2*p[i]*(1-p[i])*sex.Aa[1]
+		ff[i]<-(1-p[i])^2+2*p[i]*(1-p[i])*sex.Aa[2]
+		wm[i]<-0.5/fm[i]
+		wf[i]<-0.5/ff[i]
+		wbar[i]<-fm[i]*wm[i]+wf[i]*ff[i]
 		ii<-(i-1):i
 		if(show=="p"){
-			if(i==2) plot(1:i,p,type="l",xlim=c(0,time),ylim=c(0,1),xlab="time",
+			if(i==2) plot(1:i,p,type="l",xlim=c(1,time),ylim=c(0,1),xlab="time",
 				main="frequency of A")
 			else lines(ii,p[ii],type="l")
+		} else if(show=="sex-ratio"){
+			if(i==2){ 
+				plot(1:i,fm,type="l",xlim=c(1,time),ylim=c(0,1),xlab="time",
+					main="frequency of each sex",col=make.transparent("blue",0.5),
+					lwd=2,ylab="relative frequencies of each sex")
+				lines(1:i,ff,lwd=2,col=make.transparent("red",0.5))
+				legend(x="topright",c("males","females"),lwd=2,
+					col=c(make.transparent("blue",0.5),
+					make.transparent("red",0.5)))
+			} else { 
+				lines(ii,fm[ii],type="l",lwd=2,col=make.transparent("blue",0.5))
+				lines(ii,ff[ii],type="l",lwd=2,col=make.transparent("red",0.5))
+			}
 		} else if(show=="fitness"){
-			if(i==2) plot(1:i,wbar,type="l",xlim=c(0,time),ylim=c(0,1),xlab="time",
-				main="mean fitness")
-			else lines(ii,wbar[ii],type="l")
+			if(i==2){
+				plot(1:i,wbar,type="l",xlim=c(1,time),ylim=c(min(wbar,wm,wf),max(wbar,wm,wf)),
+					xlab="time",main="fitness",lwd=2,col=make.transparent("grey",1/3),
+					log="y")
+				lines(1:i,wm,lwd=2,col=make.transparent("blue",1/3))
+				lines(1:i,wf,lwd=2,col=make.transparent("red",1/3))
+				legend(x="topright",c("average","males","females"),lwd=2,
+					col=c(make.transparent("grey",1/3),
+					make.transparent("blue",1/3),
+					make.transparent("red",1/3)))
+			} else { 
+				lines(ii,wbar[ii],lwd=2,col=make.transparent("grey",1/3))
+				lines(ii,wm[ii],lwd=2,col=make.transparent("blue",1/3))
+				lines(ii,wf[ii],lwd=2,col=make.transparent("red",1/3))
+			}
 		}
+		Sys.sleep(pause)
 		dev.flush()
 	}
 }
 
-mutation.selection<-function(p0=1.0,w=c(1,1),u=0.001,time=100,show="q",pause=0,ylim=c(0,1)){
+mutation.selection<-function(p0=1.0,w=c(1,1),u=0.001,time=100,show="q",
+	pause=0,ylim=c(0,1)){
 	p<-wbar<-vector(); p[1]<-p0
 	wbar[1]<-p[1]^2*1.0+2*p[1]*(1-p[1])*w[1]+(1-p[1])^2*w[2]
 	for(i in 2:time){

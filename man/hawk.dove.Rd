@@ -6,7 +6,7 @@
 }
 \arguments{
 	\item{p}{Starting frequency of hawk & dove phenotypes, respectively. Should correspond with the rows of \code{M}.}
-	\item{M}{Payoff matrix. Should \code{M[i,j]} should contain the fitness of \code{i} interacting with \code{j}.}
+	\item{M}{Payoff matrix. \code{M[i,j]} should contain the fitness of \code{i} when interacting with \code{j}.}
 	\item{time}{Number of generations.}
 }
 \description{

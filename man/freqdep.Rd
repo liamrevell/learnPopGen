@@ -13,7 +13,7 @@
 	\item{...}{optional arguments.}
 }
 \description{
-	This function performs numerical analysis of a frequency dependent selection model based on Rice (\emph{Evolutionary Theory}). The fitnesses of the three genotypes in the model are as follows, where f(\emph{XX}) denotes the frequency of the \emph{XX} genotype: w(AA)=1-3*f(Aa)+3*f(aa); w(Aa)=1-s*f(Aa); w(aa)=1-3*f(Aa)+3*f(AA).
+	This function performs numerical analysis of a frequency dependent selection model based on Rice (2004; \emph{Evolutionary Theory: Mathematical & Conceptual Foundations}). The fitnesses of the three genotypes in the model are as follows, where f(\emph{XX}) denotes the frequency of the \emph{XX} genotype: w(AA)=1-3*f(Aa)+3*f(aa); w(Aa)=1-s*f(Aa); w(aa)=1-3*f(Aa)+3*f(AA).
 }
 \value{
 	The function creates one of several possible plots, depending on the value of \code{show}.
