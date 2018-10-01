@@ -24,8 +24,10 @@
  	\code{\link{drift.selection}}, \code{\link{founder.event}}, \code{\link{selection}}
 }
 \examples{
-	genetic.drift()
-	genetic.drift(p0=0.7,show="heterozygosity")
+	\dontrun{
+		genetic.drift()
+		genetic.drift(p0=0.7,show="heterozygosity")
+	}
 }
 \keyword{population genetics}
 \keyword{drift}

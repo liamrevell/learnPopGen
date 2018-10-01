@@ -27,8 +27,10 @@
 	\code{\link{clt}}, \code{\link{selection}}
 }
 \examples{
-	phenotype.freq(n=4)
-	phenotype.freq(nloci=6,p=runif(n=6),effect=1/6)
-	phenotype.selection(ngen=100)
+	\dontrun{
+		phenotype.freq(n=4)
+		phenotype.freq(nloci=6,p=runif(n=6),effect=1/6)
+		phenotype.selection(ngen=100)
+	}
 }
 \keyword{population genetics}

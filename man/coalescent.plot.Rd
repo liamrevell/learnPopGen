@@ -22,6 +22,8 @@
 }
 \examples{
 	coalescent.plot()
-	coalescent.plot(n=20,ngen=30,col.order="alternating")
+	\dontrun{
+		coalescent.plot(n=20,ngen=30,col.order="alternating")
+	}
 }
 \keyword{population genetics}
