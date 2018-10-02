@@ -1,5 +1,5 @@
-# function performs individual based simulations of reproductive character displacement
-# written by Liam J. Revell 2012
+## function performs individual based simulations of reproductive character displacement
+## written by Liam J. Revell 2012, 2018
 
 rcd<-function(nsp=3,nindivs=c(700,400,100),w_t=10,gen=c(500,500),figs="on",pf=100){
 	# set simulation control conditions
@@ -179,7 +179,6 @@ rcd<-function(nsp=3,nindivs=c(700,400,100),w_t=10,gen=c(500,500),figs="on",pf=10
 		if(nsp==1){
 			yMax<-max(1.1*c(meantrait,meanpref,ninety))
 			yMin<-min(1.1*c(meantrait,meanpref,-ninety))
-			if(figs=="on") x11()
 			plot(tt,meantrait[,1],"l",ylim=c(yMin,yMax),col="blue",xlab="generation",ylab="signal trait",lwd=2)
 			lines(tt,meanpref[,1],col="red",lwd=2)
 			lines(c(tt[1],tt[length(tt)]),c(0,0))
@@ -189,7 +188,7 @@ rcd<-function(nsp=3,nindivs=c(700,400,100),w_t=10,gen=c(500,500),figs="on",pf=10
 			if(nsp==2){
 				yMax<-max(1.1*c(meantrait,meanpref,ninety))
 				yMin<-min(1.1*c(meantrait,meanpref,-ninety))
-				if(figs=="on") x11()
+				if(figs=="on") par(mfrow=c(2,1),mar=c(5.1,4.1,1.1,2.1))
 				plot(tt,meantrait[,1],"l",ylim=c(yMin,yMax),col="blue",xlab="generation",ylab="signal trait",lwd=2)
 				lines(tt,meanpref[,1],col="red",lwd=2)
 				lines(tt,meantrait[,2],col="green",lwd=2)
@@ -198,13 +197,13 @@ rcd<-function(nsp=3,nindivs=c(700,400,100),w_t=10,gen=c(500,500),figs="on",pf=10
 				lines(c(tt[1],tt[length(tt)]),c(ninety,ninety),lty=2)
 				lines(c(tt[1],tt[length(tt)]),-c(ninety,ninety),lty=2)
 				if(figs=="on"){ 
-					x11(); plot(ts,(mismatings[,1]/totalmatings[,1])/(1-nindivs[1]/sum(nindivs)),type="l",xlab="generation",ylab="relative mismating",col="blue",lwd=2,xlim=c(0,max(ts)),ylim=c(0,1.2))
+					plot(ts,(mismatings[,1]/totalmatings[,1])/(1-nindivs[1]/sum(nindivs)),type="l",xlab="generation",ylab="relative mismating",col="blue",lwd=2,xlim=c(0,max(ts)),ylim=c(0,1.2))
 					lines(ts,(mismatings[,2]/totalmatings[,2])/(1-nindivs[2]/sum(nindivs)),type="l",col="green",lwd=2)
 				}
 			} else {
 				yMax<-max(1.1*c(meantrait,meanpref,ninety))
 				yMin<-min(1.1*c(meantrait,meanpref,-ninety))
-				if(figs=="on") x11()
+				if(figs=="on") par(mfrow=c(2,1),mar=c(5.1,4.1,1.1,2.1))
 				plot(tt,meantrait[,1],"l",ylim=c(yMin,yMax),col="blue",xlab="generation",ylab="signal trait",lwd=2)
 				lines(tt,meanpref[,1],col="red",lwd=2)
 				lines(tt,meantrait[,2],col="green",lwd=2)
@@ -215,7 +214,7 @@ rcd<-function(nsp=3,nindivs=c(700,400,100),w_t=10,gen=c(500,500),figs="on",pf=10
 				lines(c(tt[1],tt[length(tt)]),c(ninety,ninety),lty=2)
 				lines(c(tt[1],tt[length(tt)]),-c(ninety,ninety),lty=2)
 				if(figs=="on"){ 
-					x11(); plot(ts,(mismatings[,1]/totalmatings[,1])/(1-nindivs[1]/sum(nindivs)),type="l",ylab="relative mismating",xlab="generation",col="blue",lwd=2,xlim=c(0,max(ts)),ylim=c(0,1.2))
+					plot(ts,(mismatings[,1]/totalmatings[,1])/(1-nindivs[1]/sum(nindivs)),type="l",ylab="relative mismating",xlab="generation",col="blue",lwd=2,xlim=c(0,max(ts)),ylim=c(0,1.2))
 					lines(ts,(mismatings[,2]/totalmatings[,2])/(1-nindivs[2]/sum(nindivs)),type="l",col="green",lwd=2)
 					lines(ts,(mismatings[,3]/totalmatings[,3])/(1-nindivs[3]/sum(nindivs)),type="l",col="black",lwd=2)
 				}
