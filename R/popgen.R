@@ -11,6 +11,10 @@ selection<-function(p0=0.01,w=c(1.0,0.9,0.8),time=100,show="p",pause=0,...){
 	else lwd<-2
 	if(hasArg(lty)) lty<-list(...)$lty
 	else lty<-"solid"
+	if(hasArg(main)) main<-list(...)$main
+	else main<-NULL
+	if(hasArg(xlim)) xlim<-list(...)$xlim
+	else xlim<-NULL
 	## compute equilibrium
 	if(w[2]>w[1]&&w[2]>w[3]){ ## overdominance
 		W<-w/w[2]
@@ -24,17 +28,18 @@ selection<-function(p0=0.01,w=c(1.0,0.9,0.8),time=100,show="p",pause=0,...){
 	if(show=="surface"){
 		p<-0:100/100
 		wbar<-p^2*w[1]+2*p*(1-p)*w[2]+(1-p)^2*w[3]
-		plot(p,wbar,type="l",ylim=c(0,1.1*max(w)),
-			main=expression(paste("mean fitness (",
-			bar(w),")",sep="")),ylab=expression(bar(w)),col=color)
+		plot(p,wbar,type="l",xlim=xlim,ylim=c(0,1.1*max(w)),
+			main=if(is.null(main)) expression(paste("mean fitness (",
+			bar(w),")",sep="")) else main,ylab=expression(bar(w)),col=color)
 		if(equil) abline(v=eq,lty="dotted")
 	}
 	else if(show=="deltap"){
 		p<-0:100/100
 		wbar<-p^2*w[1]+2*p*(1-p)*w[2]+(1-p)^2*w[3]
 		deltap<-(p/wbar)*(p*w[1]+(1-p)*w[2]-wbar)
-		plot(p,deltap,type="l",main=expression(paste(Delta,"p as a function of p",
-			sep="")),ylab=expression(paste(Delta,"p",sep="")),col=color)
+		plot(p,deltap,type="l",xlim=xlim,main=if(is.null(main)) 
+			expression(paste(Delta,"p as a function of p",sep="")) else main,
+			ylab=expression(paste(Delta,"p",sep="")),col=color)
 		lines(c(0,1),c(0,0),lty=2)
 		if(equil) abline(v=eq,lty="dotted")
 	} else {
@@ -42,9 +47,9 @@ selection<-function(p0=0.01,w=c(1.0,0.9,0.8),time=100,show="p",pause=0,...){
 			p<-0:100/100
 			wbar<-p^2*w[1]+2*p*(1-p)*w[2]+(1-p)^2*w[3]
 			p2<-(p/wbar)*(p*w[1]+(1-p)*w[2]-wbar)+p
-			plot(p,p2,type="l",xlab=expression(p[t]),ylab=expression(p[t+1]),
-				main=expression(paste(p[t+1]," as a function of ",p[t],sep="")),
-				col=color)
+			plot(p,p2,type="l",xlim=xlim,xlab=expression(p[t]),ylab=expression(p[t+1]),
+				main=if(is.null(main)) expression(paste(p[t+1]," as a function of ",
+				p[t],sep="")) else main,col=color)
 			lines(c(0,1),c(0,1),lty=2)
 			if(equil){ 
 				abline(v=eq,lty="dotted")
@@ -61,18 +66,22 @@ selection<-function(p0=0.01,w=c(1.0,0.9,0.8),time=100,show="p",pause=0,...){
 			wbar[i]<-p[i]^2*w[1]+2*p[i]*(1-p[i])*w[2]+(1-p[i])^2*w[3]
 			ii<-(i-1):i
 			if(show=="p"){
-				if(i==2 && !add) plot(1:i,p,type="l",xlim=c(0,time),ylim=c(0,1),xlab="time",
-					main="frequency of A",col=color,lwd=lwd,lty=lty)
+				if(i==2 && !add) plot(1:i,p,type="l",xlim=if(is.null(xlim)) c(0,time) else xlim,
+					ylim=c(0,1),xlab="time",main=if(is.null(main)) "frequency of A" else main,
+					col=color,lwd=lwd,lty=lty)
 				else lines(ii,p[ii],type="l",col=color,lwd=lwd,lty=lty)
 			} else if(show=="q" && !add){
-				if(i==2) plot(1:i,1-p,type="l",xlim=c(0,time),ylim=c(0,1),xlab="time",
-					ylab="q",main="frequency of a",col=color,lwd=lwd,lty=lty)
+				if(i==2) plot(1:i,1-p,type="l",xlim=if(is.null(xlim)) c(0,time) else xlim,
+					ylim=c(0,1),xlab="time",ylab="q",
+					main=if(is.null(main)) "frequency of a" else main,
+					col=color,lwd=lwd,lty=lty)
 				else lines(ii,1-p[ii],type="l",col=color,lwd=lwd,lty=lty)
 			} else if(show=="fitness" && !add){
-				if(i==2) plot(1:i,wbar,type="l",xlim=c(0,time),
+				if(i==2) plot(1:i,wbar,type="l",xlim=if(is.null(xlim)) c(0,time) else xlim,
 					ylim=c(0,1.1*max(w)),
-					xlab="time",main=expression(paste("mean fitness (",
-					bar(w),")",sep="")),ylab=expression(bar(w)),col=color)
+					xlab="time",main=if(is.null(main)) 
+					expression(paste("mean fitness (",bar(w),")",sep="")) else main,
+					ylab=expression(bar(w)),col=color)
 				else lines(ii,wbar[ii],type="l",col=color)
 			} else if(show=="cobweb"){
 				lines(c(p[i-1],p[i-1]),c(p[i-1],p[i]),col=color)
