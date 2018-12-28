@@ -2,7 +2,7 @@
 \alias{rcd}
 \title{Simulation of reproductive character displacement in an ecological community}
 \usage{
-	rcd(nsp=3, nindivs=c(700,400,100), w_t=10, gen=c(500,500), figs="on", pf=100)
+	rcd(nsp=3, nindivs=c(700,400,100), w_t=10, gen=c(500,500), figs="on", pf=100, ...)
 }
 \arguments{
 	\item{nsp}{Number of species in the simulation. If \code{figs="on"}, \code{nsp} must be 1, 2, or 3.}
@@ -11,6 +11,7 @@
 	\item{gen}{Vector containing the number of allopatric generations followed by the number of sympatric generations for simulation.}
 	\item{figs}{Either \code{"on"} if plotting is turned on, or \code{"off"} to suppress plotting.}
 	\item{pf}{Print frequency for the simulation status to screen.}
+	\item{...}{Optional arguments.}
 }
 \description{
 	This function conducts individual-based, genetically explicit numerical simulation of reproductive character displacement in an ecological community. The model is one of multiple species (with fixed relative abundance) competing to utilize the same signal space. There is both stabilizing selection on the signal trait for detectability, as well as (in multi-species simulations) countervailing selection for divergence due to the costs of erroneous mismating attempts.
