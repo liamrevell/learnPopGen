@@ -274,6 +274,8 @@ clt<-function(nvar=1,nobs=1000,df=c("normal","uniform","exponential","binomial")
 	invisible(object)
 }
 
+## S3 methods for clt
+
 print.clt<-function(x,...){
 	cat("\nObject of class \"clt\" consisting of:\n")
 	cat(paste("  (1) ",ncol(x$data)," ",x$df,
@@ -281,4 +283,10 @@ print.clt<-function(x,...){
 	cat(paste("  (2)",nrow(x$data),"observations, and\n"))
 	cat(paste("  (3) a histogram giving the distribution of their observation-wise ",
 		x$show,".\n\n",sep=""))
+}
+
+plot.clt<-function(x,...){
+	plot(x$dist,border="darkgrey",col=phytools::make.transparent("blue",0.1),
+		main=paste("CLT: the",x$show,"of",ncol(x$data),x$df,"distribution(s)"))
+	lines(x$mids,x$counts,type="b",pch=21,bg="grey")
 }
