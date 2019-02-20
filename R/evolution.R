@@ -252,6 +252,7 @@ clt<-function(nvar=1,nobs=1000,df=c("normal","uniform","exponential","binomial")
 	theta=if(df%in%c("normal","uniform","exponential")) 1 else 0.5,
 	breaks="Sturges",show=c("sum","mean")){
 	df<-df[1]
+	show<-show[1]
 	foo<-if(df=="normal") function(n,theta){
 		rnorm(n,sd=sqrt(theta))
 	} else if(df=="uniform") function(n,theta){
@@ -262,13 +263,22 @@ clt<-function(nvar=1,nobs=1000,df=c("normal","uniform","exponential","binomial")
 		rbinom(n,1,theta)
 	}
 	X<-matrix(foo(nvar*nobs,theta),nobs,nvar)
-	x<-if(show[1]=="sum") rowSums(X) else rowMeans(X)
+	x<-if(show=="sum") rowSums(X) else rowMeans(X)
 	if(is.integer(breaks)) breaks<-seq(min(x),max(x),by=diff(range(x))/(breaks-1))
 	obj<-hist(x,border="darkgrey",col=phytools::make.transparent("blue",0.1),
 		main=paste("CLT: the",show,"of",nvar,df,"distribution(s)"),
 		breaks=breaks)
 	lines(obj$mids,obj$counts,type="b",pch=21,bg="grey")
-	object<-list(dist=obj,data=X)
+	object<-list(dist=obj,data=X,df=df,show=show)
 	class(object)<-"clt"
 	invisible(object)
+}
+
+print.clt<-function(x,...){
+	cat("\nObject of class \"clt\" consisting of:\n")
+	cat(paste("  (1) ",ncol(x$data)," ",x$df,
+		"ly distributed independent random variables, each with\n",sep=""))
+	cat(paste("  (2)",nrow(x$data),"observations, and\n"))
+	cat(paste("  (3) a histogram giving the distribution of their observation-wise ",
+		x$show,".\n\n",sep=""))
 }
