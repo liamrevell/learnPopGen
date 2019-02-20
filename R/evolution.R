@@ -166,6 +166,8 @@ coalescent.plot<-function(n=10,ngen=20,colors=NULL,...){
 	}
 }
 
+## function to simulate drift & selection
+
 drift.selection<-function(p0=0.5,Ne=100,w=c(1,1,1),ngen=400,nrep=10,
 	colors=NULL,...){
 	if(is.null(colors)) colors<-rainbow(nrep)
@@ -195,6 +197,8 @@ drift.selection<-function(p0=0.5,Ne=100,w=c(1,1,1),ngen=400,nrep=10,
 			y=p[2:nrep],col=colors[2:nrep],lwd=2)
 	invisible(p)
 }
+
+## function to simulate mutation, selection, & drift
 
 msd<-function(p0=c(0.5,0.5),Ne=c(100,100),
 	w=list(c(1,1,1),c(1,1,1)),m=c(0.01,0.01),ngen=400,
@@ -242,8 +246,11 @@ msd<-function(p0=c(0.5,0.5),Ne=c(100,100),
 	invisible(p)
 }
 
-clt<-function(nvar=1,nobs=1000,df=c("normal","uniform","exponential"),theta=1,
-	breaks="Sturges"){
+## function to illustrate the central limit theorem (CLT)
+
+clt<-function(nvar=1,nobs=1000,df=c("normal","uniform","exponential","binomial"),
+	theta=if(df%in%c("normal","uniform","exponential")) 1 else 0.5,
+	breaks="Sturges",show=c("sum","mean")){
 	df<-df[1]
 	foo<-if(df=="normal") function(n,theta){
 		rnorm(n,sd=sqrt(theta))
@@ -251,9 +258,11 @@ clt<-function(nvar=1,nobs=1000,df=c("normal","uniform","exponential"),theta=1,
 		runif(n,0,theta)
 	} else if(df=="exponential") function(n,theta){
 		rexp(n,rate=theta)
+	} else if(df=="binomial") function(n,theta){
+		rbinom(n,1,theta)
 	}
 	X<-matrix(foo(nvar*nobs,theta),nobs,nvar)
-	x<-rowSums(X)
+	x<-if(show[1]=="sum") rowSums(X) else rowMeans(X)
 	if(is.integer(breaks)) breaks<-seq(min(x),max(x),by=diff(range(x))/(breaks-1))
 	obj<-hist(x,border="darkgrey",col=phytools::make.transparent("blue",0.1),
 		main=paste("CLT: the sum of",nvar,df,"distribution(s)"),
