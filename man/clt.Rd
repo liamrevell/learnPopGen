@@ -22,6 +22,8 @@
 }
 \value{
 	Creates a plot showing the observation-wise distribution of the sum or average of the independent random variables.
+	
+	The distribution of the observation-wise sum or average and the underlying data are also returned invisibly to the user in the form of an object of class \code{"clt"}.
 }
 \author{Liam Revell \email{liam.revell@umb.edu}}
 \seealso{
