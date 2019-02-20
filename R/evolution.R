@@ -268,4 +268,7 @@ clt<-function(nvar=1,nobs=1000,df=c("normal","uniform","exponential","binomial")
 		main=paste("CLT: the",show,"of",nvar,df,"distribution(s)"),
 		breaks=breaks)
 	lines(obj$mids,obj$counts,type="b",pch=21,bg="grey")
+	object<-list(dist=obj,data=X)
+	class(object)<-"clt"
+	invisible(object)
 }
