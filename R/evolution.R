@@ -53,10 +53,16 @@ multilocus.hw<-function(nloci=2,p=NULL){
 
 ## function to compute relative frequencies of a phenotypic trait
 ## for a polygenic trait under a simple additive genetic model
-## written by Liam J. Revell 2018
+## written by Liam J. Revell 2018, 2019
 
 phenotype.freq<-function(nloci=6,p=NULL,effect=1/nloci){
 	if(is.null(p)) p<-rep(0.5,nloci)
+	if(length(effect)==1) effect<-rep(effect,nloci)
+	else if(length(effect)>1&&length(effect)!=nloci){
+		cat("The length of \'effect\' should match \'nloci\'.\n")
+		cat("Setting to recycle first value of \'effect\'.\n")
+		effect<-rep(effect[1],nloci)
+	}
 	genotypes<-t(apply(cbind(p,1-p),1,hardy.weinberg))
 	COMBN<-permutations(n=3,r=nloci,set=T,repeats.allowed=T)
 	PHEN<--rowSums(COMBN-2)*effect
@@ -116,7 +122,7 @@ phenotype.selection<-function(nloci=6,p=NULL,effect=1/nloci,beta=0.1,ngen=20,...
 }
 
 ## plot a coalescent genealogy
-## written by Liam J. Revell 2018
+## written by Liam J. Revell 2018, 2019
 
 coalescent.plot<-function(n=10,ngen=20,colors=NULL,...){
 	if(hasArg(sleep)) sleep<-list(...)$sleep
@@ -143,6 +149,71 @@ coalescent.plot<-function(n=10,ngen=20,colors=NULL,...){
 	for(i in 1:ngen){
 		parent[i,]<-sort(sample(1:n,replace=TRUE))
 		popn[i+1,]<-popn[i,parent[i,]]
+	}
+	plot.new()
+	par(mar=mar)
+	plot.window(xlim=c(0.5,n+0.5),ylim=c(ngen,0))
+	axis(2)
+	title(ylab="time (generations)")
+	cx.pt<-2*25/max(n,ngen)
+	points(1:n,rep(0,n),bg=colors,pch=21,cex=cx.pt)
+	for(i in 1:ngen){
+		dev.hold()
+		for(j in 1:n){
+			lines(c(parent[i,j],j),c(i-1,i),lwd=lwd,
+				col=colors[popn[i+1,j]])
+		}
+		points(1:n,rep(i-1,n),col="grey",bg=colors[popn[i,]],pch=21,
+			cex=cx.pt)
+		points(1:n,rep(i,n),col="grey",bg=colors[popn[i+1,]],pch=21,
+			cex=cx.pt)
+		dev.flush()
+		Sys.sleep(sleep)
+	}
+	object<-list(allele=popn,parent=parent)
+	class(object)<-"coalescent.plot"
+	invisible(object)
+}
+
+print.coalescent.plot<-function(x,...){
+	cat("\nObject of class \"coalescent.plot\" consisting of a simulated process of allelic\n")
+	cat(paste("coalescence over",nrow(x$allele)-1,"generations, in a population containing",
+		ncol(x$allele),"individuals.\n\n"))
+	cat("The object consists of:\n")
+	cat(paste("  (1) a ",nrow(x$allele)," x ",ncol(x$allele),
+		" numeric matrix containing the unique \'alleles\'\n",sep=""))
+	cat(paste("      present in the population from time=0 to time=",nrow(x$allele)-1,".\n",sep=""))
+	cat(paste("  (2) a ",nrow(x$parent)," x ",ncol(x$parent),
+		" numeric matrix giving the parent/offspring\n",sep=""))
+	cat(paste("      relationships across all ",nrow(x$parent),
+		" generations of the simulation.\n\n",sep=""))
+	cat("To re-plot type \'plot(x)\' (in which x is the name of your object) at the\ncommand line.\n\n")
+}
+
+plot.coalescent.plot<-function(x,...){
+	popn<-x$allele
+	parent<-x$parent
+	n<-ncol(popn)
+	ngen<-nrow(parent)
+	if(hasArg(sleep)) sleep<-list(...)$sleep
+	else sleep<-0.2
+	if(hasArg(lwd)) lwd<-list(...)$lwd
+	else lwd<-2
+	if(hasArg(mar)) mar<-list(...)$mar
+	else mar<-c(2.1,4.1,2.1,1.1)
+	if(hasArg(colors)) colors<-list(...)$colors
+	else colors<-NULL
+	if(is.null(colors)){ 
+		colors<-rainbow(n=n)
+		if(hasArg(col.order)) col.order<-list(...)$col.order
+		else col.order<-"sequential"
+		if(col.order=="alternating"){
+			if(n%%2==1) 
+				ii<-as.vector(rbind(1:((n+1)/2),1:((n+1)/2)+(n+1)/2))
+			else
+				ii<-as.vector(rbind(1:(n/2),n/2+1:(n/2)))
+			colors<-colors[ii]
+		}
 	}
 	plot.new()
 	par(mar=mar)
@@ -280,7 +351,7 @@ print.clt<-function(x,...){
 	cat("\nObject of class \"clt\" consisting of:\n")
 	cat(paste("  (1) ",ncol(x$data)," ",x$df,
 		"ly distributed independent random variables, each with\n",sep=""))
-	cat(paste("  (2)",nrow(x$data),"observations, and\n"))
+	cat(paste("  (2)",nrow(x$data),"observations (stored in x$data), and\n"))
 	cat(paste("  (3) a histogram giving the distribution of their observation-wise ",
 		x$show,".\n\n",sep=""))
 }
@@ -288,5 +359,5 @@ print.clt<-function(x,...){
 plot.clt<-function(x,...){
 	plot(x$dist,border="darkgrey",col=phytools::make.transparent("blue",0.1),
 		main=paste("CLT: the",x$show,"of",ncol(x$data),x$df,"distribution(s)"))
-	lines(x$mids,x$counts,type="b",pch=21,bg="grey")
+	lines(x$dist$mids,x$dist$counts,type="b",pch=21,bg="grey")
 }

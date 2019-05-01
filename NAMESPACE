@@ -2,6 +2,8 @@ export(clt, coalescent.plot, drift.selection, founder.event, freqdep, genetic.dr
 
 S3method(print, clt)
 S3method(plot, clt)
+S3method(print, coalescent.plot)
+S3method(plot, coalescent.plot)
 
 importFrom(graphics, abline, axis, barplot, hist, layout, legend, lines, par, plot, plot.new, plot.window, points, rect, text, title)
 importFrom(grDevices, dev.flush, dev.hold, rainbow)
