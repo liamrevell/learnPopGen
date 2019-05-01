@@ -1,5 +1,7 @@
 \name{coalescent.plot}
 \alias{coalescent.plot}
+\alias{print.coalescent.plot}
+\alias{plot.coalescent.plot}
 \title{Creates a (usually animated) simulation of gene coalescence within a population}
 \usage{
 	coalescent.plot(n=10, ngen=20, colors=NULL, ...)
