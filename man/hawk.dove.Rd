@@ -14,6 +14,8 @@
 }
 \value{
 	The function creates a two panel plot. The upper panel shows the relative frequencies of each of the two interacting phenotypes. The lower panel shows mean fitness of the population and of each morph through time.
+	
+	The function also invisibly returns an object of class \code{"hawk.dove"} containing the frequencies of each strategy through time and their fitnesses. This object can be printed or re-plotted using corresponding \code{print} and \code{plot} methods. (See examples.)
 }
 \author{Liam Revell \email{liam.revell@umb.edu}}
 \seealso{
@@ -22,7 +24,9 @@
 \examples{
 	hawk.dove(time=60)
 	Payoff<-matrix(c(0.5,0.6,1.5,1.0),2,2)
-	hawk.dove(M=Payoff,time=60)
+	object<-hawk.dove(M=Payoff,time=60)
+	print(object)
+	plot(object)
 }
 \keyword{game theory}
 \keyword{evolutionary theory}

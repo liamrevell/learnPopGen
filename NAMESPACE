@@ -12,6 +12,8 @@ S3method(print, freqdep)
 S3method(plot, freqdep)
 S3method(print, genetic.drift)
 S3method(plot, genetic.drift)
+S3method(print, hawk.dove)
+S3method(plot, hawk.dove)
 
 importFrom(graphics, abline, axis, barplot, hist, layout, legend, lines, par, plot, plot.new, plot.window, points, rect, text, title)
 importFrom(grDevices, dev.flush, dev.hold, rainbow)
