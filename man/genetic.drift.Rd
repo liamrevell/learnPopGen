@@ -18,6 +18,8 @@
 }
 \value{
 	The function creates one of several possible plots, depending on the value of \code{show}.
+	
+	The function also invisibly returns an object of class \code{"genetic.drift"} that can be printed or re-plotted by the user using corresponding \code{print} and \code{plot} methods. (See examples.)
 }
 \author{Liam Revell \email{liam.revell@umb.edu}}
 \seealso{
@@ -26,7 +28,8 @@
 \examples{
 	\dontrun{
 		genetic.drift()
-		genetic.drift(p0=0.7,show="heterozygosity")
+		object<-genetic.drift(p0=0.7,show="heterozygosity")
+		plot(object,show="genotypes")
 	}
 }
 \keyword{population genetics}

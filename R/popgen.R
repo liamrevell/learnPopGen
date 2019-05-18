@@ -364,12 +364,71 @@ genetic.drift<-function(p0=0.5,Ne=20,nrep=10,time=100,show="p",pause=0.1,
 		dev.flush()
 		Sys.sleep(pause)
 	}
+	attr(p,"p0")<-p0
+	attr(p,"Ne")<-Ne
+	class(p)<-"genetic.drift"
+	invisible(p)
 }
 
 repMatrix<-function(X,times){
 	Z<-list()
 	for(i in 1:times) Z[[i]]<-X
 	return(Z)
+}
+
+print.genetic.drift<-function(x,...){
+	cat("\nObject of class \"genetic.drift\" consisting of allele frequencies")
+	cat(paste("\nfrom ",ncol(x)," independent genetic drift simulation(s) each initiated",sep=""))
+	cat(paste("\nwith a starting allele frequency of ",round(attr(x,"p0"),2)," and an effective population",sep=""))
+	cat(paste("\nsize of ",attr(x,"Ne"),".\n\n",sep=""))
+	cat("\nTo plot enter plot(\'object_name\') at the command line interface.\n\n")
+}
+
+plot.genetic.drift<-function(x,...){
+	if(hasArg(show)) show<-list(...)$show
+	else show<-"p"
+	if(hasArg(pause)) pause<-list(...)$pause
+	else pause<-0.05
+	if(show=="p"){
+		if(hasArg(colors)) colors<-list(...)$colors
+		else colors<-rep("black",ncol(x))
+		if(hasArg(lwd)) lwd<-list(...)$lwd
+		else lwd<-1
+		plot(1:nrow(x),x[,1],type="l",col=colors[1],
+			lwd=lwd,main="frequency of A",xlab="time",
+			ylab="p",ylim=c(0,1))
+		if(attr(x,"p0")<=0.5) text(paste("N =",attr(x,"Ne"),
+			sep=" "),x=0,y=1,pos=4)
+		else text(paste("N =",attr(x,"Ne"),sep=" "),x=0,y=0,
+			pos=4)
+		for(i in 2:ncol(x)) lines(1:nrow(x),x[,i],col=colors[i],
+			lwd=lwd)
+	} else if(show=="genotypes"){
+		AA<-unclass(x)^2
+		Aa<-2*unclass(x)*(1-unclass(x))
+		aa<-(1-unclass(x))^2
+		for(i in 1:nrow(x)){
+			X<-cbind(aa[i,],Aa[i,],AA[i,])
+			colnames(X)<-c("aa","Aa","AA")
+			barplot(X,ylim=c(0,1),main="genotype frequencies",beside=TRUE)
+			Sys.sleep(pause)
+		}
+	} else if(show=="fixed"){
+		for(i in 1:nrow(x)){
+			fixedA<-mean(x[i,]==1)
+			fixeda<-mean(x[i,]==0)
+			barplot(c(fixeda,fixedA),ylim=c(0,1),names.arg=c("a","A"),
+				main="populations fixed",ylab="frequency")
+			Sys.sleep(pause)
+		}
+	} else if(show=="heterozygosity"){
+		if(hasArg(lwd)) lwd<-list(...)$lwd
+		else lwd<-1
+		plot(1:nrow(x),2*attr(x,"p0")*(1-attr(x,"p0"))*(1-1/(2*attr(x,"Ne")))^(0:(nrow(x)-1)),
+			type="l",lwd=2,col="red",main="heterozygosity",xlab="time",ylab="f(Aa)",
+			ylim=c(0,0.6))
+		lines(1:nrow(x),rowMeans(2*x*(1-x)),lwd=lwd)
+	}
 }
 
 founder.event<-function(p0=0.5,Ne=1000,Nf=10,ttime=100,etime=50,show="p",...){
