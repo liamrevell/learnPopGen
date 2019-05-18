@@ -1,4 +1,4 @@
-## functions by Liam Revell 2012 (some small updates 2017, 2018)
+## functions by Liam Revell 2012 (some small updates 2017, 2018, 2019)
 
 selection<-function(p0=0.01,w=c(1.0,0.9,0.8),time=100,show="p",pause=0,...){
 	if(hasArg(add)) add<-list(...)$add
@@ -183,8 +183,36 @@ freqdep<-function(p0=0.01,s=0,time=100,show="p",pause=0,...){
 			Sys.sleep(pause)
 		}
 	}
+	object<-list(p0=p0,
+		s=s,
+		time=time,
+		p=if(show%in%c("surface","deltap")) NULL else p)
+	class(object)<-"freqdep"
+	invisible(object)
 }
 
+print.freqdep<-function(x,...){
+	cat("\nAn object of class \"freqdep\" normally consisting of the expected")
+	cat("\ngene frequency of the A allele through time under the following")
+	cat("\nfrequency dependent selection model:\n")
+	cat("    w(AA)=1-3*f(Aa)+3*f(aa)\n")
+	if(x$s>0)
+		cat(paste("    w(Aa)=1-",round(x$s,2),"*f(Aa)\n",sep=""))
+	else
+		cat(paste("    w(Aa)=1+",round(-x$s,2),"*f(Aa)\n",sep=""))
+	cat("    w(aa)=1-3*f(Aa)+3*f(AA)\n\n")
+}
+
+plot.freqdep<-function(x,...){
+	if(is.null(x$p)) cat("\nNo allele frequencies in \"freqdep\" object.\n\n")
+	else {
+		if(hasArg(color)) color<-list(...)$color
+		else color<-par()$fg
+		plot(1:length(x$p),x$p,type="l",xlim=c(0,x$time),ylim=c(0,1),
+			xlab="time",ylab="p",main="frequency of A",col=color)
+	}
+}
+	
 sexratio<-function(p0=0.01,time=40,show="p",pause=0,sex.Aa=c(0.5,0.5)){
 	p<-fm<-ff<-wm<-wf<-wbar<-vector()
 	p[1]<-p0

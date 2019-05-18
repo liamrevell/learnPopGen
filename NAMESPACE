@@ -8,6 +8,8 @@ S3method(print, drift.selection)
 S3method(plot, drift.selection)
 S3method(print, founder.event)
 S3method(plot, founder.event)
+S3method(print, freqdep)
+S3method(plot, freqdep)
 
 importFrom(graphics, abline, axis, barplot, hist, layout, legend, lines, par, plot, plot.new, plot.window, points, rect, text, title)
 importFrom(grDevices, dev.flush, dev.hold, rainbow)

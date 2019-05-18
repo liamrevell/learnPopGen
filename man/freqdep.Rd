@@ -17,6 +17,8 @@
 }
 \value{
 	The function creates one of several possible plots, depending on the value of \code{show}.
+	
+	The function also invisibly returns an object of class \code{"freqdep"} containing the frequency of the allele A through time, if this was calculated by the selected method. This can be printed or plotted using the corresponding methods. (See examples.)
 }
 \author{Liam Revell \email{liam.revell@umb.edu}}
 \seealso{
@@ -25,7 +27,8 @@
 \examples{
 	freqdep(time=100)
 	freqdep(s=1.5,time=100)
-	freqdep(s=2,show="cobweb",time=100)
+	p<-freqdep(s=2,show="cobweb",time=100)
+	plot(p)
 }
 \keyword{population genetics}
 \keyword{evolutionary theory}

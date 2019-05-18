@@ -18,6 +18,8 @@
 }
 \value{
 	The function creates one of two different plots, depending on the value of \code{show}.
+	
+	The function also invisibly returns an object of class \code{"founder.event"} which can be printed or plotted using corresponding \code{print} and \code{plot} methods. (See examples.)
 }
 \author{Liam Revell \email{liam.revell@umb.edu}}
 \seealso{
@@ -25,7 +27,8 @@
 }
 \examples{
 	founder.event()
-	founder.event(show="variation")
+	p<-founder.event(show="variation")
+	plot(p,show="p")
 }
 \keyword{population genetics}
 \keyword{drift}
