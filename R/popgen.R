@@ -383,4 +383,42 @@ founder.event<-function(p0=0.5,Ne=1000,Nf=10,ttime=100,etime=50,show="p",...){
 	else rect(xleft=etime[1],ybottom=par()$usr[3],
 			xright=etime[length(etime)],ytop=par()$usr[4],
 			col=make.transparent("grey",0.5),border=NA)
+	class(p)<-"founder.event"
+	attr(p,"Ne")<-Ne
+	attr(p,"Nf")<-Nf
+	attr(p,"ttime")<-ttime
+	attr(p,"etime")<-etime
+	invisible(p)
+}
+
+print.founder.event<-function(x,...){
+	cat(paste("\nObject of class \"founder.event\" consisting of ",attr(x,"ttime"),sep=""))
+	cat(paste("\ntotal generations, including a bottleneck of ",attr(x,"etime"),sep=""))
+	cat("\ngenerations.\n")
+	cat(paste("The simulation had an effective population size of ",attr(x,"Ne"),"\n",sep=""))
+	cat(paste("and a founder population size of ",attr(x,"Nf"),".\n",sep=""))
+	cat("\nTo plot enter plot(\'object_name\') at the command line\ninterface.\n\n")
+}
+
+plot.founder.event<-function(x,...){
+	if(hasArg(show)) show<-list(...)$show
+	else show<-"p"
+	if(hasArg(ltype)) ltype<-list(...)$ltype
+	else ltype<-"s"
+	Ne<-attr(x,"Ne")
+	Nf<-attr(x,"Nf")
+	ttime<-attr(x,"ttime")
+	etime<-attr(x,"etime")
+	if(show=="p")
+		plot(1:ttime,p,main="frequency of A",xlab="time",ylim=c(0,1),type=ltype,
+			ylab=expression(p[A]))
+	else if(show=="var"){
+		v<-p*(1-p)
+		plot(1:ttime,v,main="genetic variation",xlab="time",ylim=c(0,0.3),type=ltype,
+			ylab=expression(p[A]*(1-p[A])))
+	}
+	if(length(etime)==1) abline(v=etime,col=make.transparent("grey",0.5),lwd=6)
+	else rect(xleft=etime[1],ybottom=par()$usr[3],
+			xright=etime[length(etime)],ytop=par()$usr[4],
+			col=make.transparent("grey",0.5),border=NA)
 }
