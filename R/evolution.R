@@ -297,7 +297,7 @@ plot.drift.selection<-function(x,...){
 			y=p[2:nrep],col=colors[2:nrep],lwd=2)
 }
 
-## function to simulate mutation, selection, & drift
+## function to simulate migration, selection, & drift
 
 msd<-function(p0=c(0.5,0.5),Ne=c(100,100),
 	w=list(c(1,1,1),c(1,1,1)),m=c(0.01,0.01),ngen=400,
@@ -342,7 +342,43 @@ msd<-function(p0=c(0.5,0.5),Ne=c(100,100),
 	lines(x=0:ngen,y=p[[2]],col=colors[2],lwd=2)
 	if(show.legend) legend(x="topright",legend=1:2,lty=1,col=colors,
 		lwd=2,bg=make.transparent("white",0.8))
+	attr(p,"p0")<-p0
+	attr(p,"Ne")<-Ne
+	attr(p,"w")<-lapply(w,function(w) w[3:1])
+	attr(p,"m")<-m
+	class(p)<-"msd"
 	invisible(p)
+}
+
+print.msd<-function(x,...){
+	cat("\nObject of class \"msd\" containing the results from a numerical simulation")
+	cat("\nof drift, selection, and migration within and between two populations.")
+	cat("\n\nThe following parameters were used in the simulation:\n")
+	cat(paste("\t",paste("Ne[",1:2,"]",sep="",collapse="\t"),"\n",sep=""))
+	cat(paste("\t",paste(attr(x,"Ne"),collapse="\t")))
+	cat("\n")
+	cat("\tm[1->2]\tm[2->1]\n")
+	cat(paste("\t",paste(attr(x,"m"),collapse="\t")))
+	cat("\n")
+	print(matrix(c(attr(x,"w")[[1]],attr(x,"w")[[2]]),2,3,byrow=TRUE,
+		dimnames=list(c("pop'n 1","pop'n 2"),c("w(AA)","w(Aa)","w(aa)"))))
+	cat("\n")
+	cat("\nTo plot enter plot(\'object_name\') at the command line interface.\n\n")
+}
+
+plot.msd<-function(x,...){
+	if(hasArg(show.legend)) show.legend=list(...)$show.legend
+	else show.legend<-TRUE
+	if(hasArg(colors)) colors<-list(...)$colors
+	else colors<-c("red","blue")
+	if(hasArg(lwd)) lwd<-list(...)$lwd
+	else lwd<-2
+	ngen<-length(x[[1]])-1
+	plot(0:ngen,x[[1]],type="l",col=colors[1],lwd=lwd,ylim=c(0,1),
+		xlab="time (generations)",ylab="f(A)")
+	lines(x=0:ngen,y=x[[2]],col=colors[2],lwd=lwd)
+	if(show.legend) legend(x="topright",legend=1:2,lty=1,col=colors,
+		lwd=lwd,bg=make.transparent("white",0.8))
 }
 
 ## function to illustrate the central limit theorem (CLT)

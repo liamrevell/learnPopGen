@@ -18,7 +18,9 @@
 	Simulates migration, natural selection, and genetic drift. Selection can be in opposite directions in the two populations experiencing gene flow.
 }
 \value{
-	The function creates a plot and returns a list containing the allele frequency through time for each of the two simulated populations.
+	The function creates a plot and invisibly returns a list containing the allele frequency through time for each of the two simulated populations.
+	
+	The returned object is of class \code{"msd"} and can be printed or re-plotted using corresponding \code{print} or \code{plot} methods. (See examples.)
 }
 \author{Liam Revell \email{liam.revell@umb.edu}}
 \seealso{
@@ -27,7 +29,10 @@
 \examples{
 	msd()
 	msd(p0=c(0.25,0.75),w=list(c(1,0.9,0.8),c(0.8,0.9,1)))
-	msd(p0=c(0.75,0.25),w=list(c(1,0.9,0.8),c(0.8,0.9,1)),m=c(0.1,0.1))
+	object<-msd(p0=c(0.75,0.25),w=list(c(1,0.9,0.8),
+		c(0.8,0.9,1)),m=c(0.1,0.1))
+	print(object)
+	plot(object,colors=c("black","grey"),lwd=4)
 }
 \keyword{population genetics}
 \keyword{drift}
