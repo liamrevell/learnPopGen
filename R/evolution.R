@@ -266,7 +266,26 @@ drift.selection<-function(p0=0.5,Ne=100,w=c(1,1,1),ngen=400,nrep=10,
 	if(nrep>1)
 		nulo<-mapply(lines,x=replicate(nrep-1,0:ngen,simplify=FALSE),
 			y=p[2:nrep],col=colors[2:nrep],lwd=2)
+	class(p)<-"drift.selection"
+	attr(Ne,"Ne")<-Ne
+	attr(p,"w")<-w
 	invisible(p)
+}
+
+print.drift.selection<-function(x,...){
+	ngen<-if(is.matrix(x)) nrow(x) else length(x)
+	nsim<-if(is.matrix(x)) ncol(x) else 1
+	cat("\nObject of class \"drift.selection\" consisting of")
+	cat(paste("\nallele frequencies through time from ",nsim," simulations of\n",sep=""))
+	cat(paste(ngen," generations of genetic drift & natural selection with normalized\nfitnesses of:\n"))
+	cat(paste("    W(AA) =",round(attr(x,"w")[1],2),"\n"))
+	cat(paste("    W(Aa) =",round(attr(x,"w")[2],2),"\n"))
+	cat(paste("    W(aa) =",round(attr(x,"w")[3],2),"\n"))
+	cat("\nTo plot enter plot(x) at the command line interface.\n\n")
+}
+
+plot.drift.selection<-function(x,...){
+
 }
 
 ## function to simulate mutation, selection, & drift
