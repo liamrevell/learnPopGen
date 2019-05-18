@@ -17,7 +17,7 @@
 	Simulates drift and natural selection at a single biallelic locus within one or various populations.
 }
 \value{
-	The function creates a plot and returns a list containing the allele frequency through time for each simulation.
+	The function creates a plot and returns an object of class \code{"drift.selelction"} consisting of list containing the allele frequency through time for each simulation. This object can be printed or plotted using corresponding methods.
 }
 \author{Liam Revell \email{liam.revell@umb.edu}}
 \seealso{
@@ -25,7 +25,9 @@
 }
 \examples{
 	drift.selection()
-	drift.selection(p0=0.01,Ne=100,w=c(1,0.9,0.8),ngen=200,nrep=5)
+	p<-drift.selection(p0=0.01,Ne=100,w=c(1,0.9,0.8),ngen=200,nrep=5)
+	print(p)
+	plot(p)
 }
 \keyword{population genetics}
 \keyword{drift}
