@@ -272,7 +272,8 @@ sexratio<-function(p0=0.01,time=40,show="p",pause=0,sex.Aa=c(0.5,0.5)){
 
 mutation.selection<-function(p0=1.0,w=c(1,1),u=0.001,time=100,show="q",
 	pause=0,ylim=c(0,1)){
-	p<-wbar<-vector(); p[1]<-p0
+	p<-wbar<-vector()
+	p[1]<-p0
 	wbar[1]<-p[1]^2*1.0+2*p[1]*(1-p[1])*w[1]+(1-p[1])^2*w[2]
 	for(i in 2:time){
 		p[i]<-p[i-1]
@@ -297,6 +298,38 @@ mutation.selection<-function(p0=1.0,w=c(1,1),u=0.001,time=100,show="q",
 		}
 		dev.flush()
 		Sys.sleep(pause)
+	}
+	object<-list(p0=p0,w=w,u=u,time=time,
+		p=p,wbar=wbar/max(w))
+	class(object)<-"mutation.selection"
+	invisible(object)
+}
+
+print.mutation.selection<-function(x,...){
+	cat("\nObject of class \"mutation.selection\" containing the exected frequency\n")
+	cat("of the A allele through time under mutation & selection, as specified by\n")
+	cat("the user.\n\n")
+	cat("\nTo plot enter plot(\'object_name\') at the command line interface.\n\n")
+}
+
+plot.mutation.selection<-function(x,...){
+	if(hasArg(show)) show<-list(...)$show
+	else show<-"q"
+	if(hasArg(color)) color<-list(...)$color
+	else color<-"blue"
+	if(hasArg(lwd)) lwd<-list(...)$lwd
+	else lwd<-2
+	if(hasArg(ylim)) ylim<-list(...)$ylim
+	else ylim<-c(0,1)
+	if(show=="p"){
+		plot(1:x$time,x$p,type="l",xlim=c(0,x$time),ylim=ylim,xlab="time",
+			main="frequency of A",col=color,lwd=lwd)
+	} else if(show=="q"){
+		plot(1:x$time,1-x$p,type="l",xlim=c(0,x$time),ylim=ylim,xlab="time",
+			ylab="q",main="frequency of a",col=color,lwd=lwd)
+	} else if(show=="fitness"){
+		plot(1:x$time,x$wbar/max(x$w),type="l",xlim=c(0,x$time),ylim=ylim,
+			xlab="time",main="mean fitness",col=color,lwd=lwd,ylab="fitness")
 	}
 }
 

@@ -16,6 +16,8 @@ S3method(print, hawk.dove)
 S3method(plot, hawk.dove)
 S3method(print, msd)
 S3method(plot, msd)
+S3method(print, mutation.selection)
+S3method(plot, mutation.selection)
 S3method(print, phenotype.freq)
 S3method(plot, phenotype.freq)
 

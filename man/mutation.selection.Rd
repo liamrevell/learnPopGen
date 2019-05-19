@@ -18,7 +18,9 @@
 	This function performs numerical analysis of mutation-selection balance with mutation from \emph{A} to \emph{a} and selection against (either or both of) \emph{Aa} and \emph{aa}.
 }
 \value{
-	The function creates one of two possible plots, depending on the value of \code{show}.
+	The function creates one of three possible plots, depending on the value of \code{show}.
+	
+	The function also invisibly returns the frequency of the A allele through time and the mean population fitness as an object of class \code{"mutation.selection"} that can be printed or re-plotted with associated \code{print} and \code{plot} methods, respectively.
 }
 \author{Liam Revell \email{liam.revell@umb.edu}}
 \seealso{
