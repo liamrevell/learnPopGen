@@ -22,6 +22,8 @@ S3method(print, phenotype.freq)
 S3method(plot, phenotype.freq)
 S3method(print, selection)
 S3method(plot, selection)
+S3method(print, sexratio)
+S3method(plot, sexratio)
 
 importFrom(graphics, abline, axis, barplot, hist, layout, legend, lines, par, plot, plot.new, plot.window, points, rect, text, title)
 importFrom(grDevices, dev.flush, dev.hold, rainbow)

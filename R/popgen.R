@@ -303,59 +303,165 @@ plot.freqdep<-function(x,...){
 }
 	
 sexratio<-function(p0=0.01,time=40,show="p",pause=0,sex.Aa=c(0.5,0.5)){
-	p<-fm<-ff<-wm<-wf<-wbar<-vector()
+	p<-f.AA<-f.Aa<-f.aa<-fm<-ff<-wf<-wm<-wbar<-vector()
 	p[1]<-p0
-	fm[1]<-p[1]^2+2*p[1]*(1-p[1])*sex.Aa[1]
-	ff[1]<-(1-p[1])^2+2*p[1]*(1-p[1])*sex.Aa[2]
+	f.AA[1]<-p[1]^2
+	f.Aa[1]<-2*p[1]*(1-p[1])
+	f.aa[1]<-(1-p[1])^2
+	fm[1]<-f.AA[1]+sex.Aa[1]*f.Aa[1]
+	ff[1]<-sex.Aa[2]*f.Aa[1]+f.aa[1]
 	wm[1]<-0.5/fm[1]
 	wf[1]<-0.5/ff[1]
 	wbar[1]<-fm[1]*wm[1]+wf[1]*ff[1]
-	for(i in 2:time){
-		p[i]<-p[i-1]
-		w<-c(wm[i-1],sex.Aa[1]*wm[i-1]+sex.Aa[2]*wf[i-1],wf[i-1])
-		p[i]<-(p[i]^2*w[1]+p[i]*(1-p[i])*w[2])/wbar[i-1]
-		fm[i]<-p[i]^2+2*p[i]*(1-p[i])*sex.Aa[1]
-		ff[i]<-(1-p[i])^2+2*p[i]*(1-p[i])*sex.Aa[2]
+	t<-0:time
+	for(i in 2:length(t)){
+		## M(AA) x F(Aa)
+		p_AA_Aa=f.AA[i-1]*f.Aa[i-1]*sex.Aa[2]
+		## M(AA) x F(aa)
+		p_AA_aa=f.AA[i-1]*f.aa[i-1]
+		## M(Aa) x F(Aa)
+		p_Aa_Aa=f.Aa[i-1]*sex.Aa[1]*f.Aa[i-1]*sex.Aa[2]
+		## M(Aa) + F(aa)
+		p_Aa_aa=f.Aa[i-1]*sex.Aa[1]*f.aa[i-1]
+		## normalize
+		sump<-p_AA_Aa+p_AA_aa+p_Aa_Aa+p_Aa_aa
+		p_AA_Aa<-p_AA_Aa/sump
+		p_AA_aa<-p_AA_aa/sump
+		p_Aa_Aa<-p_Aa_Aa/sump
+		p_Aa_aa<-p_Aa_aa/sump
+		f.AA[i]<-f.Aa[i]<-f.aa[i]<-0
+		## from M(AA) x F(Aa)
+		f.AA[i]<-f.AA[i]+0.5*p_AA_Aa
+		f.Aa[i]<-f.Aa[i]+0.5*p_AA_Aa
+		## from M(Aa) x F(aa)
+		f.Aa[i]<-f.Aa[i]+p_AA_aa
+		## from M(Aa) x F(Aa)
+		f.AA[i]<-f.AA[i]+0.25*p_Aa_Aa
+		f.Aa[i]<-f.Aa[i]+0.5*p_Aa_Aa
+		f.aa[i]<-f.aa[i]+0.25*p_Aa_Aa
+		## from M(Aa) x F(aa)
+		f.Aa[i]<-f.Aa[i]+0.5*p_Aa_aa
+		f.aa[i]<-f.aa[i]+0.5*p_Aa_aa
+		## compute frequencies
+		p[i]<-f.AA[i]+0.5*f.Aa[i]
+		fm[i]<-f.AA[i]+sex.Aa[1]*f.Aa[i]
+		ff[i]<-sex.Aa[2]*f.Aa[i]+f.aa[i]
+		## compute fitnesses
 		wm[i]<-0.5/fm[i]
 		wf[i]<-0.5/ff[i]
 		wbar[i]<-fm[i]*wm[i]+wf[i]*ff[i]
-		ii<-(i-1):i
+	}
+	for(i in 2:length(t)){
+		ii<-c(i-1,i)
 		if(show=="p"){
-			if(i==2) plot(1:i,p,type="l",xlim=c(1,time),ylim=c(0,1),xlab="time",
-				main="frequency of A")
-			else lines(ii,p[ii],type="l")
+			if(i==2) plot(t[1:i],p[1:i],type="l",xlim=c(0,time),ylim=c(0,1),xlab="time",
+				ylab="p",main="frequency of A",bty="l",col="darkgrey",lwd=2)
+			else lines(t[ii],p[ii],type="l",lwd=2,col="darkgrey")
 		} else if(show=="sex-ratio"){
 			if(i==2){ 
-				plot(1:i,fm,type="l",xlim=c(1,time),ylim=c(0,1),xlab="time",
+				plot(t[1:i],fm[1:i],type="l",xlim=c(0,time),ylim=c(0,1),xlab="time",
 					main="frequency of each sex",col=make.transparent("blue",0.5),
-					lwd=2,ylab="relative frequencies of each sex")
-				lines(1:i,ff,lwd=2,col=make.transparent("red",0.5))
+					lwd=2,ylab="relative frequencies of each sex",bty="l")
+				lines(t[1:i],ff[1:i],lwd=2,col=make.transparent("red",0.5))
 				legend(x="topright",c("males","females"),lwd=2,
 					col=c(make.transparent("blue",0.5),
 					make.transparent("red",0.5)))
 			} else { 
-				lines(ii,fm[ii],type="l",lwd=2,col=make.transparent("blue",0.5))
-				lines(ii,ff[ii],type="l",lwd=2,col=make.transparent("red",0.5))
+				lines(t[ii],fm[ii],type="l",lwd=2,col=make.transparent("blue",0.5))
+				lines(t[ii],ff[ii],type="l",lwd=2,col=make.transparent("red",0.5))
 			}
 		} else if(show=="fitness"){
 			if(i==2){
-				plot(1:i,wbar,type="l",xlim=c(1,time),ylim=c(min(wbar,wm,wf),max(wbar,wm,wf)),
-					xlab="time",main="fitness",lwd=2,col=make.transparent("grey",1/3),
-					log="y")
-				lines(1:i,wm,lwd=2,col=make.transparent("blue",1/3))
-				lines(1:i,wf,lwd=2,col=make.transparent("red",1/3))
+				plot(t[1:i],wbar[1:i],type="l",xlim=c(0,time),ylim=c(min(wbar,wm,wf),max(wbar,wm,wf)),
+					xlab="time",main=expression(paste("mean fitness (",bar(w),")",sep="")),
+					ylab=expression(bar(w)),lwd=2,col=make.transparent("grey",1/3),
+					log="y",bty="l")
+				lines(t[1:i],wm[1:i],lwd=2,col=make.transparent("blue",1/3))
+				lines(t[1:i],wf[1:i],lwd=2,col=make.transparent("red",1/3))
 				legend(x="topright",c("average","males","females"),lwd=2,
 					col=c(make.transparent("grey",1/3),
 					make.transparent("blue",1/3),
 					make.transparent("red",1/3)))
 			} else { 
-				lines(ii,wbar[ii],lwd=2,col=make.transparent("grey",1/3))
-				lines(ii,wm[ii],lwd=2,col=make.transparent("blue",1/3))
-				lines(ii,wf[ii],lwd=2,col=make.transparent("red",1/3))
+				lines(t[ii],wbar[ii],lwd=2,col=make.transparent("grey",1/3))
+				lines(t[ii],wm[ii],lwd=2,col=make.transparent("blue",1/3))
+				lines(t[ii],wf[ii],lwd=2,col=make.transparent("red",1/3))
+			} 
+		} else if(show=="genotypes"){
+			if(i==2){
+				plot(t[1:i],f.AA[1:i],type="l",xlim=c(0,time),ylim=c(0,1),xlab="time",
+					main="frequency of each sex",col=make.transparent("red",0.5),
+					lwd=2,ylab="relative frequency of each genotype",bty="l")
+				lines(t[1:i],f.Aa[1:i],lwd=lwd,col=make.transparent("purple",0.5))
+				lines(t[1:i],f.aa[1:i],lwd=lwd,col=make.transparent("blue",0.5))
+				legend(x="topright",c("AA","Aa","aa"),lwd=lwd,
+					col=c(make.transparent("red",0.5),
+					make.transparent("purple",0.5),make.transparent("blue",0.5)))
+			} else {
+				lines(t[ii],f.AA[ii],lwd=2,col=make.transparent("red",0.5))
+				lines(t[ii],f.Aa[ii],lwd=2,col=make.transparent("purple",0.5))
+				lines(t[ii],f.aa[ii],lwd=2,col=make.transparent("blue",0.5))
 			}
 		}
 		Sys.sleep(pause)
 		dev.flush()
+	}
+	object<-list(p=p,fm=fm,ff=ff,
+		f.AA=f.AA,f.Aa=f.Aa,f.aa=f.aa,
+		wm=wm,wf=wf,wbar=wbar,
+		sex.Aa=sex.Aa)
+	class(object)<-"sexratio"
+	invisible(object)
+}
+
+print.sexratio<-function(x,...){
+	cat("\nObject of class \"sexratio\" consisting of the expected frequency of the two")
+	cat("\nalternative alleles (A & a) at a sex-determination locus in which heterozygotes")
+	cat(paste("\nare male with a probability of ",round(x$sex.Aa[1],2),
+		"; and female with a probability of ",round(x$sex.Aa[2],2),".\n",sep=""))
+	cat("\nTo plot enter plot(\'object_name\') at the command line\ninterface.\n\n")
+}
+
+plot.sexratio<-function(x,...){
+	if(hasArg(show)) show<-list(...)$show
+	else show<-"p"
+	if(hasArg(lwd)) lwd<-list(...)$lwd
+	else lwd<-2
+	if(hasArg(type)) type<-list(...)$type
+	else type<-"l"
+	t<-1:length(x$p)-1
+	if(show=="p"){
+		plot(t,x$p,type=type,xlim=c(0,max(t)),ylim=c(0,1),xlab="time",
+			ylab="p",main="frequency of sex-determination allele A",lwd=lwd,bty="l",col="darkgrey")
+	} else if(show=="sex-ratio"){
+		plot(t,x$fm,type=type,xlim=c(0,max(t)),ylim=c(0,1),xlab="time",
+			main="frequency of each sex",col=make.transparent("blue",0.5),
+			ylab="relative frequencies of each sex",lwd=lwd,bty="l")
+		lines(t,x$ff,lwd=lwd,col=make.transparent("red",0.5),
+			type=type)
+		legend(x="topright",c("males","females"),lwd=lwd,
+			col=c(make.transparent("blue",0.5),
+			make.transparent("red",0.5)))
+	} else if(show=="fitness"){
+		plot(t,x$wbar,type=type,xlim=c(0,max(t)),ylim=c(min(x$wbar,x$wm,x$wf),
+			max(x$wbar,x$wm,x$wf)),xlab="time",main=expression(paste("mean fitness (",bar(w),
+			")",sep="")),ylab=expression(bar(w)),lwd=lwd,col=make.transparent("grey",1/3),
+			log="y",bty="l")
+		lines(t,x$wm,lwd=lwd,col=make.transparent("blue",1/3),type=type)
+		lines(t,x$wf,lwd=lwd,col=make.transparent("red",1/3),type=type)
+		legend(x="topright",c("average","males","females"),lwd=lwd,
+			col=c(make.transparent("grey",1/3),
+			make.transparent("blue",1/3),
+			make.transparent("red",1/3)))
+	} else if(show=="genotypes"){
+		plot(t,x$f.AA,type=type,xlim=c(0,max(t)),ylim=c(0,1),xlab="time",
+			main="frequency of each genotype",col=make.transparent("red",0.5),
+			lwd=lwd,ylab="relative frequency of each genotype",bty="l")
+		lines(t,x$f.Aa,lwd=lwd,col=make.transparent("purple",0.5),type=type)
+		lines(t,x$f.aa,lwd=lwd,col=make.transparent("blue",0.5),type=type)
+		legend(x="topright",c("AA","Aa","aa"),lwd=lwd,
+			col=c(make.transparent("red",0.5),
+			make.transparent("purple",0.5),make.transparent("blue",0.5)))
 	}
 }
 
