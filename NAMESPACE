@@ -1,4 +1,4 @@
-export(clt, coalescent.plot, drift.selection, founder.event, freqdep, genetic.drift, hardy.weinberg, hawk.dove, msd, multilocus.hw, mutation.selection, phenotype.freq, phenotype.selection, selection, sexratio,rcd)
+export(clt, coalescent.plot, drift.selection, founder.event, freqdep, genetic.drift, hardy.weinberg, hawk.dove, msd, multilocus.hw, mutation.selection, phenotype.freq, phenotype.selection, rcd, selection, sexratio)
 
 S3method(print, clt)
 S3method(plot, clt)
@@ -20,6 +20,8 @@ S3method(print, mutation.selection)
 S3method(plot, mutation.selection)
 S3method(print, phenotype.freq)
 S3method(plot, phenotype.freq)
+S3method(print, selection)
+S3method(plot, selection)
 
 importFrom(graphics, abline, axis, barplot, hist, layout, legend, lines, par, plot, plot.new, plot.window, points, rect, text, title)
 importFrom(grDevices, dev.flush, dev.hold, rainbow)

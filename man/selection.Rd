@@ -17,6 +17,8 @@
 }
 \value{
 	The function creates one of several possible plots, depending on the value of \code{show}.
+	
+	The function invisibly returns an object of class \code{"selection"} which can be printed or re-plotted using associated \code{print} and \code{plot} methods. (See examples.)
 }
 \author{Liam Revell \email{liam.revell@umb.edu}}
 \seealso{
@@ -25,6 +27,9 @@
 \examples{
 	selection(w=c(1.0,0.8,0.8),time=500)
 	selection(w=c(1.0,1.0,0.0),show="surface")
+	object<-selection(w=c(0.8,1.1,0.7))
+	print(object)
+	plot(object,show="cobweb")
 }
 \keyword{evolutionary theory}
 \keyword{population genetics}

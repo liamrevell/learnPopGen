@@ -100,6 +100,95 @@ selection<-function(p0=0.01,w=c(1.0,0.9,0.8),time=100,show="p",pause=0,...){
 			Sys.sleep(pause)
 		}
 	}
+	object<-list(p0=p0,w=w,time=time,
+		p=if(show%in%c("surface","deltap")) NULL else p,
+		equilibrium=eq)
+	class(object)<-"selection"
+	invisible(object)
+}
+
+print.selection<-function(x,...){
+	cat("\nObject of class \"selection\" normally consisting of the expected allele")
+	cat("\nfrequencies through time under frequency independent selection with genotype")
+	cat("\nfitnesses as follows:\n")
+	cat(paste("    W(AA) =",round(x$w[1],2),"\n"))
+	cat(paste("    W(Aa) =",round(x$w[2],2),"\n"))
+	cat(paste("    W(aa) =",round(x$w[3],2),"\n"))
+	cat("\nTo plot enter plot(\'object_name\') at the command line\ninterface.\n\n")
+}
+
+plot.selection<-function(x,...){
+	if(hasArg(color)) color<-list(...)$color
+	else color<-"black"
+	if(hasArg(lwd)) lwd<-list(...)$lwd
+	else lwd<-2
+	if(hasArg(lty)) lty<-list(...)$lty
+	else lty<-"solid"
+	if(hasArg(main)) main<-list(...)$main
+	else main<-NULL
+	if(hasArg(xlim)) xlim<-list(...)$xlim
+	else xlim<-NULL
+	if(hasArg(show)) show<-list(...)$show
+	else show<-"p"
+	w<-x$w
+	eq<-x$equilibrium
+	if(show%in%c("surface","deltap")){
+		p<-0:100/100
+		wbar<-p^2*w[1]+2*p*(1-p)*w[2]+(1-p)^2*w[3]
+		if(show=="surface"){
+			plot(p,wbar,type="l",xlim=xlim,ylim=c(0,1.1*max(w)),
+				main=if(is.null(main)) expression(paste("mean fitness (",
+				bar(w),")",sep="")) else main,ylab=expression(bar(w)),
+				col=color)
+			abline(v=eq,lty="dotted")
+		} else if(show=="deltap"){
+			deltap<-(p/wbar)*(p*w[1]+(1-p)*w[2]-wbar)
+			plot(p,deltap,type="l",xlim=xlim,main=if(is.null(main)) 
+				expression(paste(Delta,"p as a function of p",sep="")) else main,
+				ylab=expression(paste(Delta,"p",sep="")),col=color)
+			lines(c(0,1),c(0,0),lty=2)
+			abline(v=eq,lty="dotted")
+		}
+	} else if(show%in%c("p","q","fitness","cobweb")&&!is.null(x$p)){
+		if(show=="cobweb"){
+			p<-0:100/100
+			wbar<-p^2*w[1]+2*p*(1-p)*w[2]+(1-p)^2*w[3]
+			p2<-(p/wbar)*(p*w[1]+(1-p)*w[2]-wbar)+p
+			plot(p,p2,type="l",xlim=xlim,xlab=expression(p[t]),ylab=expression(p[t+1]),
+				main=if(is.null(main)) expression(paste(p[t+1]," as a function of ",
+				p[t],sep="")) else main,col=color)
+			lines(c(0,1),c(0,1),lty=2)
+			abline(v=eq,lty="dotted")
+			abline(h=eq,lty="dotted")
+		}
+		p<-x$p
+		wbar<-x$wbar
+		if(show=="p"){
+			plot(1:x$time,p,type="l",xlim=if(is.null(xlim)) c(0,time) else xlim,
+				ylim=c(0,1),xlab="time",main=if(is.null(main)) "frequency of A" else main,
+				col=color,lwd=lwd,lty=lty)
+		} else if(show=="q"){
+			plot(1:x$time,1-p,type="l",xlim=if(is.null(xlim)) c(0,time) else xlim,
+				ylim=c(0,1),xlab="time",ylab="q",
+				main=if(is.null(main)) "frequency of a" else main,
+				col=color,lwd=lwd,lty=lty)
+		} else if(show=="fitness"){
+			plot(1:x$time,wbar,type="l",xlim=if(is.null(xlim)) c(0,time) else xlim,
+				ylim=c(0,1.1*max(w)),
+				xlab="time",main=if(is.null(main)) 
+				expression(paste("mean fitness (",bar(w),")",sep="")) else main,
+				ylab=expression(bar(w)),col=color)
+		} else if(show=="cobweb"){
+			for(i in 2:x$time){
+				lines(c(p[i-1],p[i-1]),c(p[i-1],p[i]),col=color)
+				lines(c(p[i-1],p[i]),c(p[i],p[i]),col=color)
+			}
+		}
+		if(show=="p") abline(h=eq,lty="dotted")
+		if(show=="q") abline(h=1-eq,lty="dotted")
+		if(show=="fitness") abline(h=eq^2*w[1]+2*eq*(1-eq)*w[2]+(1-eq)^2*w[3],
+			lty="dotted")
+	} else cat("\nThis option not available for your input object as\ncurrently configured.\n\n")
 }
 
 freqdep<-function(p0=0.01,s=0,time=100,show="p",pause=0,...){
