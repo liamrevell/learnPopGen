@@ -65,21 +65,83 @@ phenotype.freq<-function(nloci=6,p=NULL,effect=1/nloci){
 	}
 	genotypes<-t(apply(cbind(p,1-p),1,hardy.weinberg))
 	COMBN<-permutations(n=3,r=nloci,set=T,repeats.allowed=T)
-	PHEN<--rowSums(COMBN-2)*effect
+	PHEN<-round(-rowSums((COMBN-2)%*%effect),12)
 	FREQ<-rep(1,nrow(COMBN))
 	for(i in 1:nrow(COMBN)){
 		for(j in 1:nloci)	FREQ[i]<-FREQ[i]*genotypes[j,COMBN[i,j]]
 	}
-	phen<-unique(PHEN)
-	freq<-rep(0,length(phen))
-	for(i in 1:length(phen)) freq[i]<-sum(FREQ[which(PHEN==phen[i])])
-	plot(phen,freq,type="b",pch=21,bg="grey",
-		xlab="phenotypic trait value",ylab="relative frequency",
-		cex=1.5,xlim=range(phen)+c(-0.5,0.5)*effect,ylim=c(0,max(freq)))
-	for(i in 1:length(phen))
-		rect(phen[i]-0.4*effect,0,phen[i]+0.4*effect,
-		freq[i],border="grey",
-		col=make.transparent("blue",0.2))
+	phen<-sort(unique(PHEN))
+	if(length(phen)<0.2*length(PHEN)){
+		type<-"discrete"
+		freq<-rep(0,length(phen))
+		for(i in 1:length(phen)) freq[i]<-sum(FREQ[which(PHEN==phen[i])])
+		plot(phen,freq,type="b",pch=21,bg="grey",
+			xlab="phenotypic trait value",ylab="relative frequency",
+			cex=1.5,xlim=range(phen)+c(-0.5,0.5)*mean(effect),
+			ylim=c(0,max(freq)))
+		by<-min(rowSums(cbind(-phen[2:length(phen)-1],phen[2:length(phen)])))
+		for(i in 1:length(phen))
+			rect(phen[i]-0.4*by,0,phen[i]+0.4*by,
+			freq[i],border="grey",
+			col=make.transparent("blue",0.2))
+	} else {
+		type<-"continuous"
+		h<-hist(PHEN,breaks=seq(min(PHEN),max(PHEN),
+			by=diff(range(PHEN))/20),plot=FALSE)
+		phen<-h$mids
+		freq<-h$counts/sum(h$counts)
+		plot(phen,freq,type="b",pch=21,bg="grey",
+			xlab="phenotypic trait value",ylab="relative frequency",
+			cex=1.5,xlim=range(phen)+c(-0.5,0.5)*mean(effect),
+			ylim=c(0,max(freq)))
+		by<-phen[2]-phen[1]
+		for(i in 1:length(phen))
+			rect(phen[i]-0.5*by,0,phen[i]+0.5*by,
+				freq[i],border="grey",
+				col=make.transparent("blue",0.2))
+	}
+	object<-list(phenotype=phen,frequency=freq,
+		nloci=nloci,p=p,effect=effect,
+		type=type)
+	class(object)<-"phenotype.freq"
+	invisible(object)
+}
+
+print.phenotype.freq<-function(x,...){
+	cat("\nObject of class \"phenotype.freq\" containing the frequencies of each value")
+	cat(paste("\nof a hypothetical polygenic trait determined by the additive effect of",x$nloci))
+	cat("\ngenetic loci with the following frequencies,\n")
+	cat(paste("  p(A): ",paste(round(x$p,2),collapse=", "),"\n",sep=""))
+	cat("and the following additive effect of allelic subsitution,\n")
+	cat(paste("  a: ",paste(round(x$effect,2),collapse=", "),"\n\n",sep=""))
+	cat("\nTo plot enter plot(\'object_name\') at the command line interface.\n\n")
+}
+
+plot.phenotype.freq<-function(x,...){
+	phen<-x$phenotype
+	freq<-x$frequency
+	if(x$type=="discrete"){
+		plot(phen,freq,type="b",pch=21,bg="grey",
+			xlab="phenotypic trait value",ylab="relative frequency",
+			cex=1.5,xlim=range(phen)+c(-0.5,0.5)*mean(x$effect),
+			ylim=c(0,max(freq)))
+		by<-min(rowSums(cbind(-phen[2:length(phen)-1],
+			phen[2:length(phen)])))
+		for(i in 1:length(phen))
+			rect(phen[i]-0.4*by,0,phen[i]+0.4*by,
+			freq[i],border="grey",
+			col=make.transparent("blue",0.2))
+	} else {
+		plot(phen,freq,type="b",pch=21,bg="grey",
+			xlab="phenotypic trait value",ylab="relative frequency",
+			cex=1.5,xlim=range(phen)+c(-0.5,0.5)*mean(x$effect),
+			ylim=c(0,max(freq)))
+		by<-phen[2]-phen[1]
+		for(i in 1:length(phen))
+			rect(phen[i]-0.5*by,0,phen[i]+0.5*by,
+				freq[i],border="grey",
+				col=make.transparent("blue",0.2))
+	}
 }
 
 ## function to conduct numerical analysis of phenotypic selection on 

@@ -16,6 +16,8 @@ S3method(print, hawk.dove)
 S3method(plot, hawk.dove)
 S3method(print, msd)
 S3method(plot, msd)
+S3method(print, phenotype.freq)
+S3method(plot, phenotype.freq)
 
 importFrom(graphics, abline, axis, barplot, hist, layout, legend, lines, par, plot, plot.new, plot.window, points, rect, text, title)
 importFrom(grDevices, dev.flush, dev.hold, rainbow)

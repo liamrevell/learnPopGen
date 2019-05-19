@@ -21,6 +21,8 @@
 }
 \value{
 	Creates a plot or animation.
+	
+	\code{phenotype.freq} also invisibly returns an object of class \code{"phenotype.freq"} that can be printed or re-plotted using \code{print} and \code{plot} methods corresponding to the object type. (See examples.)
 }
 \author{Liam Revell \email{liam.revell@umb.edu}}
 \seealso{
@@ -29,7 +31,9 @@
 \examples{
 	\dontrun{
 		phenotype.freq(n=4)
-		phenotype.freq(nloci=6,p=runif(n=6),effect=1/6)
+		object<-phenotype.freq(nloci=6,p=runif(n=6),effect=1/6)
+		print(object)
+		plot(object)
 		phenotype.selection(ngen=100)
 	}
 }
