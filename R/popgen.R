@@ -164,16 +164,16 @@ plot.selection<-function(x,...){
 		p<-x$p
 		wbar<-x$wbar
 		if(show=="p"){
-			plot(1:x$time,p,type="l",xlim=if(is.null(xlim)) c(0,time) else xlim,
+			plot(1:x$time,p,type="l",xlim=if(is.null(xlim)) c(0,x$time) else xlim,
 				ylim=c(0,1),xlab="time",main=if(is.null(main)) "frequency of A" else main,
 				col=color,lwd=lwd,lty=lty)
 		} else if(show=="q"){
-			plot(1:x$time,1-p,type="l",xlim=if(is.null(xlim)) c(0,time) else xlim,
+			plot(1:x$time,1-p,type="l",xlim=if(is.null(xlim)) c(0,x$time) else xlim,
 				ylim=c(0,1),xlab="time",ylab="q",
 				main=if(is.null(main)) "frequency of a" else main,
 				col=color,lwd=lwd,lty=lty)
 		} else if(show=="fitness"){
-			plot(1:x$time,wbar,type="l",xlim=if(is.null(xlim)) c(0,time) else xlim,
+			plot(1:x$time,wbar,type="l",xlim=if(is.null(xlim)) c(0,x$time) else xlim,
 				ylim=c(0,1.1*max(w)),
 				xlab="time",main=if(is.null(main)) 
 				expression(paste("mean fitness (",bar(w),")",sep="")) else main,
@@ -392,9 +392,9 @@ sexratio<-function(p0=0.01,time=40,show="p",pause=0,sex.Aa=c(0.5,0.5)){
 				plot(t[1:i],f.AA[1:i],type="l",xlim=c(0,time),ylim=c(0,1),xlab="time",
 					main="frequency of each sex",col=make.transparent("red",0.5),
 					lwd=2,ylab="relative frequency of each genotype",bty="l")
-				lines(t[1:i],f.Aa[1:i],lwd=lwd,col=make.transparent("purple",0.5))
-				lines(t[1:i],f.aa[1:i],lwd=lwd,col=make.transparent("blue",0.5))
-				legend(x="topright",c("AA","Aa","aa"),lwd=lwd,
+				lines(t[1:i],f.Aa[1:i],lwd=2,col=make.transparent("purple",0.5))
+				lines(t[1:i],f.aa[1:i],lwd=2,col=make.transparent("blue",0.5))
+				legend(x="topright",c("AA","Aa","aa"),lwd=2,
 					col=c(make.transparent("red",0.5),
 					make.transparent("purple",0.5),make.transparent("blue",0.5)))
 			} else {
@@ -725,10 +725,10 @@ plot.founder.event<-function(x,...){
 	ttime<-attr(x,"ttime")
 	etime<-attr(x,"etime")
 	if(show=="p")
-		plot(1:ttime,p,main="frequency of A",xlab="time",ylim=c(0,1),type=ltype,
+		plot(1:ttime,x,main="frequency of A",xlab="time",ylim=c(0,1),type=ltype,
 			ylab=expression(p[A]))
 	else if(show=="var"){
-		v<-p*(1-p)
+		v<-x*(1-x)
 		plot(1:ttime,v,main="genetic variation",xlab="time",ylim=c(0,0.3),type=ltype,
 			ylab=expression(p[A]*(1-p[A])))
 	}

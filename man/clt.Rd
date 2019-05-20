@@ -5,8 +5,7 @@
 \title{Illustrates the concept of the Central Limit Theorem}
 \usage{
 	clt(nvar=1, nobs=1000, df=c("normal","uniform","exponential","binomial"),
-		theta=if(df%in%c("normal","uniform","exponential")) 1 else 0.5,
-		breaks="Sturges",show=c("sum","mean"))
+		theta=NULL,	breaks="Sturges", show=c("sum","mean"))
 	\method{print}{clt}(x, ...)
 	\method{plot}{clt}(x, ...)
 }

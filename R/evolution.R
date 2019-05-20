@@ -352,11 +352,11 @@ plot.drift.selection<-function(x,...){
 	nrep<-length(x)
 	if(hasArg(colors)) colors<-list(...)$colors
 	else colors<-rainbow(nrep)
-	plot(0:ngen,p[[1]],type="l",col=colors[1],lwd=2,ylim=c(0,1),
+	plot(0:ngen,x[[1]],type="l",col=colors[1],lwd=2,ylim=c(0,1),
 		xlab="time (generations)",ylab="f(A)")
 	if(nrep>1)
 		nulo<-mapply(lines,x=replicate(nrep-1,0:ngen,simplify=FALSE),
-			y=p[2:nrep],col=colors[2:nrep],lwd=2)
+			y=x[2:nrep],col=colors[2:nrep],lwd=2)
 }
 
 ## function to simulate migration, selection, & drift
@@ -446,10 +446,11 @@ plot.msd<-function(x,...){
 ## function to illustrate the central limit theorem (CLT)
 
 clt<-function(nvar=1,nobs=1000,df=c("normal","uniform","exponential","binomial"),
-	theta=if(df%in%c("normal","uniform","exponential")) 1 else 0.5,
-	breaks="Sturges",show=c("sum","mean")){
+	theta=NULL,breaks="Sturges",show=c("sum","mean")){
 	df<-df[1]
 	show<-show[1]
+	if(is.null(theta))
+		theta<-if(df%in%c("normal","uniform","exponential")) 1 else 0.5
 	foo<-if(df=="normal") function(n,theta){
 		rnorm(n,sd=sqrt(theta))
 	} else if(df=="uniform") function(n,theta){
