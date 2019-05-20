@@ -2,7 +2,7 @@
 \alias{selection}
 \title{Numerical analysis of biallelic locus frequency independent selection}
 \usage{
-	selection(p0=0.01, w=c(1.0,0.9,0.8), time=100, show="p", pause=0,...)
+	selection(p0=0.01, w=c(1.0,0.9,0.8), time=100, show="p", pause=0, ...)
 }
 \arguments{
 	\item{p0}{Starting frequency for the \emph{A} allele.}

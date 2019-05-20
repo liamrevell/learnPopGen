@@ -10,7 +10,7 @@
 	\item{time}{Number of generations to run the analysis.}
 	\item{show}{Various options for plotting. \code{"p"} shows the frequency of A through time; \code{"surface"} plots the mean fitness as a function of p; \code{"deltap"} shows the change in p as a function of p; \code{"cobweb"} creates a cobweb plot showing p(t) by p(t+1). The default is \code{show="p"}.}
 	\item{pause}{Pause between generations. \code{pause=0.01} (for instance) might smooth animation.}
-	\item{...}{optional arguments.}
+	\item{...}{optional arguments. Presently, the only optional argument in \code{freqdep} is \code{color}, which can be used to change the color of the lines of the plot. The \code{plot} method can also accept the optional arguments \code{type} (e.g., \code{"l"} or \code{"s"}) and \code{lwd}.}
 }
 \description{
 	This function performs numerical analysis of a frequency dependent selection model based on Rice (2004; \emph{Evolutionary Theory: Mathematical & Conceptual Foundations}). The fitnesses of the three genotypes in the model are as follows, where f(\emph{XX}) denotes the frequency of the \emph{XX} genotype: w(\emph{AA})=1-3*f(\emph{Aa})+3*f(\emph{aa}); w(\emph{Aa})=1-s*f(\emph{Aa}); and w(\emph{aa})=1-3*f(\emph{Aa})+3*f(\emph{AA}). As shown in Rice (2004), though entirely deterministic, the model can exhibit chaotic behavior under some values for \code{s}.

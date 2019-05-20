@@ -11,7 +11,7 @@
 	\item{nrep}{number of replicate simulations.}
 	\item{ngen}{total time, in number of generations, for the simulation.}
 	\item{colors}{colors to use for plotting.}
-	\item{...}{optional arguments.}
+	\item{...}{optional arguments. Presently the only arguments are \code{type} (e.g., \code{"l"}, \code{"s"}) and \code{lwd} in the \code{plot} method.}
 }
 \description{
 	Simulates drift and natural selection at a single biallelic locus within one or various populations.

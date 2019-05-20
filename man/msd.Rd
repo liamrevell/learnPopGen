@@ -12,7 +12,7 @@
 	\item{m}{rates of migration \emph{from} the first population to the second, and from the second population to the first, in that order. This value is best interpreted as the \emph{probability} that an individual born in population 1 will migrate to population 2 before reproduction, and \emph{vice versa}.}
 	\item{ngen}{total time, in number of generations, for the simulation.}
 	\item{colors}{colors to use for plotting.}
-	\item{...}{optional arguments.}
+	\item{...}{optional arguments. Presently, the only optional argument for \code{msd} is \code{show.legend} (which defaults to \code{TRUE}). The \code{plot} method adds the additional optional arguments of \code{colors} (a vector of colors for the two simulated populations), \code{lwd}, and \code{type} (e.g., \code{"l"} or \code{"s"}).}
 }
 \description{
 	Simulates migration, natural selection, and genetic drift. Selection can be in opposite directions in the two populations experiencing gene flow.

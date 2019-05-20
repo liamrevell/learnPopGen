@@ -12,7 +12,7 @@
 	\item{effect}{additive effect of an allele substitution. For simplicity, this is assumed to be the same at all loci.}
 	\item{beta}{selection gradient.}
 	\item{ngen}{number of generations to analyze.}
-	\item{...}{optional arguments.}
+	\item{...}{optional arguments. Presently the only optional argument in the function \code{phenotype.selection} is \code{sleep}, which can be used to specify the time delay in seconds between generations.}
 }
 \description{
 	\code{phenotype.freq} computes the phenotypic trait distribution for a polygenic trait. Can be used to demonstrate that the phenotypic distribution of a polygenic trait will tend to normality as the number of loci is increased, regardless of the allele frequencies at each locus.

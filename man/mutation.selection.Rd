@@ -20,7 +20,7 @@
 \value{
 	The function creates one of three possible plots, depending on the value of \code{show}.
 	
-	The function also invisibly returns the frequency of the A allele through time and the mean population fitness as an object of class \code{"mutation.selection"} that can be printed or re-plotted with associated \code{print} and \code{plot} methods, respectively.
+	The function also invisibly returns the frequency of the A allele through time and the mean population fitness as an object of class \code{"mutation.selection"} that can be printed or re-plotted with associated \code{print} and \code{plot} methods, respectively. The \code{plot} method also permits user control over various attributes of the appearance of the plot, such as the color of the plotted lines (\code{color}), the line widths (\code{lwd}), the limits of the \emph{y}-axis (\code{ylim}), and the type of line (e.g., \code{"l"} vs. \code{"s"}, via the argument \code{type}).
 }
 \author{Liam Revell \email{liam.revell@umb.edu}}
 \seealso{
