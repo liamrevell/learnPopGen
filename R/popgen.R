@@ -130,6 +130,8 @@ plot.selection<-function(x,...){
 	else xlim<-NULL
 	if(hasArg(show)) show<-list(...)$show
 	else show<-"p"
+	if(hasArg(type)) type<-list(...)$type
+	else type<-"l"
 	w<-x$w
 	eq<-x$equilibrium
 	if(show%in%c("surface","deltap")){
@@ -164,11 +166,11 @@ plot.selection<-function(x,...){
 		p<-x$p
 		wbar<-x$wbar
 		if(show=="p"){
-			plot(1:x$time,p,type="l",xlim=if(is.null(xlim)) c(0,x$time) else xlim,
+			plot(1:x$time,p,type=type,xlim=if(is.null(xlim)) c(0,x$time) else xlim,
 				ylim=c(0,1),xlab="time",main=if(is.null(main)) "frequency of A" else main,
 				col=color,lwd=lwd,lty=lty)
 		} else if(show=="q"){
-			plot(1:x$time,1-p,type="l",xlim=if(is.null(xlim)) c(0,x$time) else xlim,
+			plot(1:x$time,1-p,type=type,xlim=if(is.null(xlim)) c(0,x$time) else xlim,
 				ylim=c(0,1),xlab="time",ylab="q",
 				main=if(is.null(main)) "frequency of a" else main,
 				col=color,lwd=lwd,lty=lty)
@@ -293,12 +295,16 @@ print.freqdep<-function(x,...){
 }
 
 plot.freqdep<-function(x,...){
+	if(hasArg(type)) type<-list(...)$type
+	else type<-list(...)$type
+	if(hasArg(lwd)) lwd<-list(...)$lwd
+	else lwd<-1
 	if(is.null(x$p)) cat("\nNo allele frequencies in \"freqdep\" object.\n\n")
 	else {
 		if(hasArg(color)) color<-list(...)$color
 		else color<-par()$fg
-		plot(1:length(x$p),x$p,type="l",xlim=c(0,x$time),ylim=c(0,1),
-			xlab="time",ylab="p",main="frequency of A",col=color)
+		plot(1:length(x$p),x$p,type=type,xlim=c(0,x$time),ylim=c(0,1),
+			xlab="time",ylab="p",main="frequency of A",col=color,lwd=lwd)
 	}
 }
 	
@@ -516,14 +522,16 @@ plot.mutation.selection<-function(x,...){
 	else lwd<-2
 	if(hasArg(ylim)) ylim<-list(...)$ylim
 	else ylim<-c(0,1)
+	if(hasArg(type)) type<-list(...)$type
+	else type<-"l"
 	if(show=="p"){
-		plot(1:x$time,x$p,type="l",xlim=c(0,x$time),ylim=ylim,xlab="time",
+		plot(1:x$time,x$p,type=type,xlim=c(0,x$time),ylim=ylim,xlab="time",
 			main="frequency of A",col=color,lwd=lwd)
 	} else if(show=="q"){
-		plot(1:x$time,1-x$p,type="l",xlim=c(0,x$time),ylim=ylim,xlab="time",
+		plot(1:x$time,1-x$p,type=type,xlim=c(0,x$time),ylim=ylim,xlab="time",
 			ylab="q",main="frequency of a",col=color,lwd=lwd)
 	} else if(show=="fitness"){
-		plot(1:x$time,x$wbar/max(x$w),type="l",xlim=c(0,x$time),ylim=ylim,
+		plot(1:x$time,x$wbar/max(x$w),type=type,xlim=c(0,x$time),ylim=ylim,
 			xlab="time",main="mean fitness",col=color,lwd=lwd,ylab="fitness")
 	}
 }
@@ -622,7 +630,9 @@ plot.genetic.drift<-function(x,...){
 		else colors<-rep("black",ncol(x))
 		if(hasArg(lwd)) lwd<-list(...)$lwd
 		else lwd<-1
-		plot(1:nrow(x),x[,1],type="l",col=colors[1],
+		if(hasArg(type)) type<-list(...)$type
+		else type<-"l"
+		plot(1:nrow(x),x[,1],type=type,col=colors[1],
 			lwd=lwd,main="frequency of A",xlab="time",
 			ylab="p",ylim=c(0,1))
 		if(attr(x,"p0")<=0.5) text(paste("N =",attr(x,"Ne"),
@@ -652,10 +662,12 @@ plot.genetic.drift<-function(x,...){
 	} else if(show=="heterozygosity"){
 		if(hasArg(lwd)) lwd<-list(...)$lwd
 		else lwd<-1
+		if(hasArg(type)) type<-list(...)$type
+		else type<-"l"
 		plot(1:nrow(x),2*attr(x,"p0")*(1-attr(x,"p0"))*(1-1/(2*attr(x,"Ne")))^(0:(nrow(x)-1)),
-			type="l",lwd=2,col="red",main="heterozygosity",xlab="time",ylab="f(Aa)",
+			lwd=2,col="red",main="heterozygosity",xlab="time",ylab="f(Aa)",
 			ylim=c(0,0.6))
-		lines(1:nrow(x),rowMeans(2*x*(1-x)),lwd=lwd)
+		lines(1:nrow(x),rowMeans(2*x*(1-x)),lwd=lwd,type=type)
 	}
 }
 

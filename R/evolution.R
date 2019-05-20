@@ -352,11 +352,15 @@ plot.drift.selection<-function(x,...){
 	nrep<-length(x)
 	if(hasArg(colors)) colors<-list(...)$colors
 	else colors<-rainbow(nrep)
-	plot(0:ngen,x[[1]],type="l",col=colors[1],lwd=2,ylim=c(0,1),
+	if(hasArg(type)) type<-list(...)$type
+	else type<-"l"
+	if(hasArg(lwd)) lwd<-list(...)$lwd
+	else lwd<-2
+	plot(0:ngen,x[[1]],type=type,col=colors[1],lwd=lwd,ylim=c(0,1),
 		xlab="time (generations)",ylab="f(A)")
 	if(nrep>1)
 		nulo<-mapply(lines,x=replicate(nrep-1,0:ngen,simplify=FALSE),
-			y=x[2:nrep],col=colors[2:nrep],lwd=2)
+			y=x[2:nrep],col=colors[2:nrep],type=type,lwd=lwd)
 }
 
 ## function to simulate migration, selection, & drift
@@ -435,10 +439,12 @@ plot.msd<-function(x,...){
 	else colors<-c("red","blue")
 	if(hasArg(lwd)) lwd<-list(...)$lwd
 	else lwd<-2
+	if(hasArg(type)) type<-list(...)$type
+	else type<-"l"
 	ngen<-length(x[[1]])-1
-	plot(0:ngen,x[[1]],type="l",col=colors[1],lwd=lwd,ylim=c(0,1),
+	plot(0:ngen,x[[1]],type=type,col=colors[1],lwd=lwd,ylim=c(0,1),
 		xlab="time (generations)",ylab="f(A)")
-	lines(x=0:ngen,y=x[[2]],col=colors[2],lwd=lwd)
+	lines(x=0:ngen,y=x[[2]],col=colors[2],lwd=lwd,type=type)
 	if(show.legend) legend(x="topright",legend=1:2,lty=1,col=colors,
 		lwd=lwd,bg=make.transparent("white",0.8))
 }
