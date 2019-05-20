@@ -30,9 +30,9 @@
 	msd()
 	msd(p0=c(0.25,0.75),w=list(c(1,0.9,0.8),c(0.8,0.9,1)))
 	object<-msd(p0=c(0.75,0.25),w=list(c(1,0.9,0.8),
-		c(0.8,0.9,1)),m=c(0.1,0.1))
+		c(0.8,0.9,1)),m=c(0.1,0.1),ngen=100)
 	print(object)
-	plot(object,colors=c("black","grey"),lwd=4)
+	plot(object,colors=c("black","grey"),lwd=4,type="s")
 }
 \keyword{population genetics}
 \keyword{drift}

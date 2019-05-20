@@ -17,7 +17,7 @@
 	Simulates drift and natural selection at a single biallelic locus within one or various populations.
 }
 \value{
-	The function creates a plot and returns an object of class \code{"drift.selelction"} consisting of list containing the allele frequency through time for each simulation. This object can be printed or plotted using corresponding methods.
+	The function creates a plot and returns an object of class \code{"drift.selelction"} consisting of list containing the allele frequency through time for each simulation. This object can be printed or plotted using corresponding methods. (See examples.)
 }
 \author{Liam Revell \email{liam.revell@umb.edu}}
 \seealso{

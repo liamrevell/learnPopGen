@@ -28,7 +28,7 @@
 \value{
 	Creates a plot showing the observation-wise distribution of the sum or average of the independent random variables.
 	
-	The distribution of the observation-wise sum or average and the underlying data are also returned invisibly to the user in the form of an object of class \code{"clt"}.
+	The distribution of the observation-wise sum or average and the underlying data are also returned invisibly to the user in the form of an object of class \code{"clt"}. This object can in turn be printed or re-plotted using custom \code{print} and \code{plot} methods. (See examples.)
 }
 \author{Liam Revell \email{liam.revell@umb.edu}}
 \seealso{
@@ -37,6 +37,8 @@
 \examples{
 	clt(nvar=1,df="exponential")
 	clt(nvar=10,df="exponential")
-	clt(nvar=40,df="exponential")
+	object<-clt(nvar=40,df="exponential")
+	print(object)
+	plot(object)
 }
 \keyword{statistics}

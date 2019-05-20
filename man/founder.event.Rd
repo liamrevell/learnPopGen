@@ -28,6 +28,7 @@
 \examples{
 	founder.event()
 	p<-founder.event(show="variation")
+	print(p)
 	plot(p,show="p",ltype="l")
 }
 \keyword{population genetics}

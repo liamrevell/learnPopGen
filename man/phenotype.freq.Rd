@@ -34,6 +34,9 @@
 		object<-phenotype.freq(nloci=6,p=runif(n=6),effect=1/6)
 		print(object)
 		plot(object)
+		object<-phenotype.freq(nloci=10,p=runif(n=10),effect=rexp(n=10))
+		print(object)
+		plot(object)
 		phenotype.selection(ngen=100)
 	}
 }

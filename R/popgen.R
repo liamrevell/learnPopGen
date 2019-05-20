@@ -296,7 +296,7 @@ print.freqdep<-function(x,...){
 
 plot.freqdep<-function(x,...){
 	if(hasArg(type)) type<-list(...)$type
-	else type<-list(...)$type
+	else type<-"l"
 	if(hasArg(lwd)) lwd<-list(...)$lwd
 	else lwd<-1
 	if(is.null(x$p)) cat("\nNo allele frequencies in \"freqdep\" object.\n\n")
@@ -640,7 +640,7 @@ plot.genetic.drift<-function(x,...){
 		else text(paste("N =",attr(x,"Ne"),sep=" "),x=0,y=0,
 			pos=4)
 		for(i in 2:ncol(x)) lines(1:nrow(x),x[,i],col=colors[i],
-			lwd=lwd)
+			lwd=lwd,type=type)
 	} else if(show=="genotypes"){
 		AA<-unclass(x)^2
 		Aa<-2*unclass(x)*(1-unclass(x))
@@ -719,8 +719,9 @@ founder.event<-function(p0=0.5,Ne=1000,Nf=10,ttime=100,etime=50,show="p",...){
 }
 
 print.founder.event<-function(x,...){
+	if(length(attr(x,"etime"))==1) duration<-1 else duration<-abs(diff(attr(x,"etime")))
 	cat(paste("\nObject of class \"founder.event\" consisting of ",attr(x,"ttime"),sep=""))
-	cat(paste("\ntotal generations, including a bottleneck of ",attr(x,"etime"),sep=""))
+	cat(paste("\ntotal generations, including a bottleneck of ",duration,sep=""))
 	cat("\ngenerations.\n")
 	cat(paste("The simulation had an effective population size of ",attr(x,"Ne"),"\n",sep=""))
 	cat(paste("and a founder population size of ",attr(x,"Nf"),".\n",sep=""))

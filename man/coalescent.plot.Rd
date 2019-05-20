@@ -21,7 +21,7 @@
 \value{
 	Creates a plot or animation.
 	
-	Invisibly returns an object of class \code{"coalescent.plot"} containing the alleles (coded numerically) and the parent-offspring relationships from the coalescent simulation.
+	Invisibly returns an object of class \code{"coalescent.plot"} containing the alleles (coded numerically) and the parent-offspring relationships from the coalescent simulation. This object can be printed or re-plotted using \code{print} and \code{plot} methods. (See examples.)
 }
 \author{Liam Revell \email{liam.revell@umb.edu}}
 \seealso{
@@ -31,6 +31,9 @@
 	coalescent.plot()
 	\dontrun{
 		coalescent.plot(n=20,ngen=30,col.order="alternating")
+		object<-coalescent.plot()
+		print(object)
+		plot(object)
 	}
 }
 \keyword{population genetics}

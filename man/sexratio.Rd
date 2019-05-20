@@ -27,7 +27,8 @@
 	sexratio()
 	sexratio(p0=0.001,show="sex-ratio")
 	sexratio(p0=0.001,show="fitness")
-	object<-sexratio(p0=0.001,sex.Aa=c(0.9,0.1))
+	object<-sexratio(p0=0.001,sex.Aa=c(0.9,0.1),
+		time=20)
 	print(object)
 	par(mfrow=c(2,1))
 	plot(object,lwd=4,type="s",show="sex-ratio")
