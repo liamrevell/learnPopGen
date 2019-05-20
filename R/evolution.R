@@ -249,7 +249,7 @@ print.coalescent.plot<-function(x,...){
 		" numeric matrix giving the parent/offspring\n",sep=""))
 	cat(paste("      relationships across all ",nrow(x$parent),
 		" generations of the simulation.\n\n",sep=""))
-	cat("To re-plot type \'plot(x)\' (in which x is the name of your object) at the\ncommand line.\n\n")
+	cat("To re-plot type plot(object_name) at the command line.\n\n")
 }
 
 plot.coalescent.plot<-function(x,...){
