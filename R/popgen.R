@@ -480,7 +480,7 @@ mutation.selection<-function(p0=1.0,w=c(1,0),u=0.001,time=100,show="q",
 		p[i]<-p[i-1]
 		p[i]<-(1-u)*(p[i]^2*1.0+p[i]*(1-p[i])*w[1])/wbar[i-1]
 		wbar[i]<-p[i]^2*1.0+2*p[i]*(1-p[i])*w[1]+(1-p[i])^2*w[2]
-		ii<-(i-1):i**
+		ii<-(i-1):i
 		if(show=="p"){
 			if(i==2) plot(1:i,p,type="l",xlim=c(0,time),ylim=c(0,1),xlab="time",
 				main="frequency of A")

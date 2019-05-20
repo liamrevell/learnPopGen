@@ -2,7 +2,7 @@
 \alias{mutation.selection}
 \title{Gene frequencies over time under mutation-selection balance}
 \usage{
-	mutation.selection(p0=1.0, w=c(1,1), u=0.001, time=100, show="q", pause=0, 
+	mutation.selection(p0=1.0, w=c(1,0), u=0.001, time=100, show="q", pause=0, 
 		ylim=c(0,1))
 }
 \arguments{
