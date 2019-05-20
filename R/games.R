@@ -2,6 +2,7 @@
 ## written by Liam J. Revell
 
 hawk.dove<-function(p=c(0.01,0.99),M=NULL,time=100){
+	if(length(p)==1) p<-c(p,1-p)
 	if(is.null(M)) M<-matrix(c(0.6,1.5,0.5,1.0),2,2,byrow=T)
 	if(is.null(dimnames(M))) dimnames(M)<-list(c("hawk","dove"),c("hawk","dove"))
 	interactors<-rownames(M)
@@ -36,7 +37,7 @@ hawk.dove<-function(p=c(0.01,0.99),M=NULL,time=100){
 		dove=dove,hawk=hawk,wbar=wbar,
 		wdove=wdove,whawk=whawk)
 	class(object)<-"hawk.dove"
-	object
+	invisible(object)
 }
 
 print.hawk.dove<-function(x,...){

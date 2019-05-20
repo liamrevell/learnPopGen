@@ -18,6 +18,8 @@
 \value{
 	The function creates one of several possible plots, depending on the value of \code{show}.
 	
+	The cobweb plot shows \emph{p}(\emph{t+1}) as a function of \emph{p}(\emph{t}), with stairsteps giving the changes across generations given the initial value of \emph{p} (\code{p0}) and total time (\code{time}) that are specified by the user.
+	
 	The function invisibly returns an object of class \code{"selection"} which can be printed or re-plotted using associated \code{print} and \code{plot} methods. (See examples.)
 }
 \author{Liam Revell \email{liam.revell@umb.edu}}

@@ -5,7 +5,7 @@
 	hawk.dove(p=c(0.01,0.99), M=NULL, time=100)
 }
 \arguments{
-	\item{p}{Starting frequency of hawk & dove phenotypes, respectively. Should correspond with the rows of \code{M}.}
+	\item{p}{Starting frequency of hawk & dove phenotypes, respectively. Should correspond with the rows of \code{M}. If a single value is given then \code{p} will automatically be set to \code{p=c(p,1-p)}.}
 	\item{M}{Payoff matrix. \code{M[i,j]} should contain the fitness of \code{i} when interacting with \code{j}.}
 	\item{time}{Number of generations.}
 }

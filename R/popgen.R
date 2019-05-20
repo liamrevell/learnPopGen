@@ -471,7 +471,7 @@ plot.sexratio<-function(x,...){
 	}
 }
 
-mutation.selection<-function(p0=1.0,w=c(1,1),u=0.001,time=100,show="q",
+mutation.selection<-function(p0=1.0,w=c(1,0),u=0.001,time=100,show="q",
 	pause=0,ylim=c(0,1)){
 	p<-wbar<-vector()
 	p[1]<-p0
@@ -480,7 +480,7 @@ mutation.selection<-function(p0=1.0,w=c(1,1),u=0.001,time=100,show="q",
 		p[i]<-p[i-1]
 		p[i]<-(1-u)*(p[i]^2*1.0+p[i]*(1-p[i])*w[1])/wbar[i-1]
 		wbar[i]<-p[i]^2*1.0+2*p[i]*(1-p[i])*w[1]+(1-p[i])^2*w[2]
-		ii<-(i-1):i
+		ii<-(i-1):i**
 		if(show=="p"){
 			if(i==2) plot(1:i,p,type="l",xlim=c(0,time),ylim=c(0,1),xlab="time",
 				main="frequency of A")
@@ -490,9 +490,10 @@ mutation.selection<-function(p0=1.0,w=c(1,1),u=0.001,time=100,show="q",
 				ylab="q",main="frequency of a")
 			else lines(ii,1-p[ii],type="l")
 		} else if(show=="fitness"){
-			if(i==2) plot(1:i,wbar/max(w),type="l",xlim=c(0,time),ylim=c(0,1),
-				xlab="time",main="mean fitness")
-			else lines(ii,wbar[ii]/max(w),type="l")
+			if(i==2) plot(1:i,wbar,type="l",xlim=c(0,time),ylim=c(0,1),
+				xlab="time",main=expression(paste("mean fitness (",
+				bar(w),")",sep="")),ylab=expression(bar(w)))
+			else lines(ii,wbar[ii],type="l")
 		} else {
 			message("not a recognized option")
 			break
@@ -501,7 +502,7 @@ mutation.selection<-function(p0=1.0,w=c(1,1),u=0.001,time=100,show="q",
 		Sys.sleep(pause)
 	}
 	object<-list(p0=p0,w=w,u=u,time=time,
-		p=p,wbar=wbar/max(w))
+		p=p,wbar=wbar)
 	class(object)<-"mutation.selection"
 	invisible(object)
 }
@@ -531,7 +532,7 @@ plot.mutation.selection<-function(x,...){
 		plot(1:x$time,1-x$p,type=type,xlim=c(0,x$time),ylim=ylim,xlab="time",
 			ylab="q",main="frequency of a",col=color,lwd=lwd)
 	} else if(show=="fitness"){
-		plot(1:x$time,x$wbar/max(x$w),type=type,xlim=c(0,x$time),ylim=ylim,
+		plot(1:x$time,x$wbar,type=type,xlim=c(0,x$time),ylim=ylim,
 			xlab="time",main="mean fitness",col=color,lwd=lwd,ylab="fitness")
 	}
 }
