@@ -1,0 +1,15 @@
+citHeader("To cite learnPopGen in publication use:")
+
+citEntry(
+	entry="Article",
+	title="learnPopGen: an R package for population genetic simulation and numerical analysis.",
+	author="Liam J. Revell",
+	journal="Ecology and Evolution",
+	year=2019,
+	volume="",
+	pages="",
+	textVersion="Revell, L. J. (In press) learnPopGen: an R package for population genetic simulation and numerical analysis. Ecology and Evolution."	   
+)
+
+citFooter("As learnPopGen is continually evolving, you may want to cite its version number. Find it with 'help(package=learnPopGen)'.")
+
