@@ -304,6 +304,10 @@ plot.coalescent.plot<-function(x,...){
 drift.selection<-function(p0=0.5,Ne=100,w=c(1,1,1),ngen=400,nrep=10,
 	colors=NULL,...){
 	if(is.null(colors)) colors<-rainbow(nrep)
+	if(hasArg(xlabel)) xlabel=list(...)$xlabel
+	else xlabel<-"Time (generations)"
+	if(hasArg(ylabel)) ylabel=list(...)$ylabel
+	else ylabel<-"f(A)"
 	w<-(w/max(w))[3:1]
 	gametes<-rep(0,2*Ne)
 	if(p0>0) gametes[1:round(p0*2*Ne)]<-1
@@ -324,7 +328,7 @@ drift.selection<-function(p0=0.5,Ne=100,w=c(1,1,1),ngen=400,nrep=10,
 		for(j in 1:nrep) p[[j]][i+1]<-mean(gametes[[j]])
 	}
 	plot(0:ngen,p[[1]],type="l",col=colors[1],lwd=2,ylim=c(0,1),
-		xlab="time (generations)",ylab="f(A)")
+		xlab=xlabel,ylab=ylabel)
 	if(nrep>1)
 		nulo<-mapply(lines,x=replicate(nrep-1,0:ngen,simplify=FALSE),
 			y=p[2:nrep],col=colors[2:nrep],lwd=2)
@@ -356,8 +360,12 @@ plot.drift.selection<-function(x,...){
 	else type<-"l"
 	if(hasArg(lwd)) lwd<-list(...)$lwd
 	else lwd<-2
+	if(hasArg(xlabel)) xlabel=list(...)$xlabel
+	else xlabel<-"Time (generations)"
+	if(hasArg(ylabel)) ylabel=list(...)$ylabel
+	else ylabel<-"f(A)"
 	plot(0:ngen,x[[1]],type=type,col=colors[1],lwd=lwd,ylim=c(0,1),
-		xlab="time (generations)",ylab="f(A)")
+		xlab=xlabel,ylab=ylabel)
 	if(nrep>1)
 		nulo<-mapply(lines,x=replicate(nrep-1,0:ngen,simplify=FALSE),
 			y=x[2:nrep],col=colors[2:nrep],type=type,lwd=lwd)
@@ -370,6 +378,10 @@ msd<-function(p0=c(0.5,0.5),Ne=c(100,100),
 	colors=c("red","blue"),...){
 	if(hasArg(show.legend)) show.legend=list(...)$show.legend
 	else show.legend<-TRUE
+	if(hasArg(xlabel)) xlabel=list(...)$xlabel
+	else xlabel<-"Time (generations)"
+	if(hasArg(ylabel)) ylabel=list(...)$ylabel
+	else ylabel<-"f(A)"
 	w<-lapply(w,function(w) (w/max(w))[3:1])
 	gametes<-lapply(Ne,function(Ne) rep(0,2*Ne))
 	gametes<-mapply(function(p0,g,N){
@@ -404,7 +416,7 @@ msd<-function(p0=c(0.5,0.5),Ne=c(100,100),
 		for(j in 1:2) p[[j]][i+1]<-mean(gametes[[j]])
 	}
 	plot(0:ngen,p[[1]],type="l",col=colors[1],lwd=2,ylim=c(0,1),
-		xlab="time (generations)",ylab="f(A)")
+		xlab=xlabel,ylab=ylabel)
 	lines(x=0:ngen,y=p[[2]],col=colors[2],lwd=2)
 	if(show.legend) legend(x="topright",legend=1:2,lty=1,col=colors,
 		lwd=2,bg=make.transparent("white",0.8))
