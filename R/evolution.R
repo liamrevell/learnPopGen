@@ -363,6 +363,14 @@ plot.drift.selection<-function(x,...){
 			y=x[2:nrep],col=colors[2:nrep],type=type,lwd=lwd)
 }
 
+as.data.frame.drift.selection<-function(x,...){
+	ngen<-length(x[[1]])-1
+	nsim<-length(x)
+	x<-unclass(x)
+	as.data.frame(x,row.names=0:ngen,
+		col.names=paste("sim_",1:nsim,sep=""))
+}
+
 ## function to simulate migration, selection, & drift
 
 msd<-function(p0=c(0.5,0.5),Ne=c(100,100),
@@ -449,6 +457,13 @@ plot.msd<-function(x,...){
 		lwd=lwd,bg=make.transparent("white",0.8))
 }
 
+as.data.frame.msd<-function(x,...){
+	ngen<-length(x[[1]])-1
+	x<-unclass(x)
+	as.data.frame(x,row.names=0:ngen,
+		col.names=paste("sim_",1:nsim,sep=""))
+}
+
 ## function to illustrate the central limit theorem (CLT)
 
 clt<-function(nvar=1,nobs=1000,df=c("normal","uniform","exponential","binomial"),
@@ -493,4 +508,10 @@ plot.clt<-function(x,...){
 	plot(x$dist,border="darkgrey",col=phytools::make.transparent("blue",0.1),
 		main=paste("CLT: the",x$show,"of",ncol(x$data),x$df,"distribution(s)"))
 	lines(x$dist$mids,x$dist$counts,type="b",pch=21,bg="grey")
+}
+
+as.data.frame.clt<-function(x,...){
+	x<-x$data
+	as.data.frame(x,row.names=1:nrow(x),
+		col.names=paste("V",1:ncol(x),sep=""))
 }
